@@ -1,5 +1,5 @@
 ﻿/*
-    Generated date:     2020-09-01T14:01:12Z
+    Generated date:     2020-09-02T09:16:47Z
     Generated on:       SLS-LT-ANDERSON
     Package version:    
     Migration version:  (n/a)
@@ -1775,13 +1775,13 @@ IF DB_NAME() != '$(DatabaseName)'
   USE [$(DatabaseName)];
 
 GO
-IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('9170f158-c470-5b3f-8c5e-735a4c2f9ba4' AS UNIQUEIDENTIFIER) AND [script_checksum] = '764FB99F8A6B685E4A0ABDCFCDAE6D4F66FA2E8B5AF566D33FAF956E81AA1253')
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('9170f158-c470-5b3f-8c5e-735a4c2f9ba4' AS UNIQUEIDENTIFIER) AND [script_checksum] = '7B7F5348875EF685D4EE458DA429EE5E19A4CDE9C58BA040F2A2B8BEC6BC6CE0')
   PRINT '
 
 ***** EXECUTING MIGRATION "Programmable Objects\dbo\Stored Procedures\GetContacts.sql", ID: {9170f158-c470-5b3f-8c5e-735a4c2f9ba4} *****';
 
 GO
-IF EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('9170f158-c470-5b3f-8c5e-735a4c2f9ba4' AS UNIQUEIDENTIFIER) AND [script_checksum] = '764FB99F8A6B685E4A0ABDCFCDAE6D4F66FA2E8B5AF566D33FAF956E81AA1253')
+IF EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('9170f158-c470-5b3f-8c5e-735a4c2f9ba4' AS UNIQUEIDENTIFIER) AND [script_checksum] = '7B7F5348875EF685D4EE458DA429EE5E19A4CDE9C58BA040F2A2B8BEC6BC6CE0')
 BEGIN
   PRINT '----- Skipping "Programmable Objects\dbo\Stored Procedures\GetContacts.sql", ID: {9170f158-c470-5b3f-8c5e-735a4c2f9ba4} as there are no changes to deploy';
   SET NOEXEC ON;
@@ -1824,7 +1824,7 @@ AS
             DC.customer_zipcode,
             DC.credit_card_type_id,
             DC.customer_credit_card_number FROM dbo.DM_CUSTOMER AS DC
-			--v3
+			--v4
 ');
 
 GO
@@ -1835,14 +1835,14 @@ IF N'$(IsSqlCmdEnabled)' <> N'True'
   SET NOEXEC ON;
 
 GO
-IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('9170f158-c470-5b3f-8c5e-735a4c2f9ba4' AS UNIQUEIDENTIFIER) AND [script_checksum] = '764FB99F8A6B685E4A0ABDCFCDAE6D4F66FA2E8B5AF566D33FAF956E81AA1253')
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('9170f158-c470-5b3f-8c5e-735a4c2f9ba4' AS UNIQUEIDENTIFIER) AND [script_checksum] = '7B7F5348875EF685D4EE458DA429EE5E19A4CDE9C58BA040F2A2B8BEC6BC6CE0')
   PRINT '***** FINISHED EXECUTING MIGRATION "Programmable Objects\dbo\Stored Procedures\GetContacts.sql", ID: {9170f158-c470-5b3f-8c5e-735a4c2f9ba4} *****
 ';
 
 GO
-IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('9170f158-c470-5b3f-8c5e-735a4c2f9ba4' AS UNIQUEIDENTIFIER) AND [script_checksum] = '764FB99F8A6B685E4A0ABDCFCDAE6D4F66FA2E8B5AF566D33FAF956E81AA1253')
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('9170f158-c470-5b3f-8c5e-735a4c2f9ba4' AS UNIQUEIDENTIFIER) AND [script_checksum] = '7B7F5348875EF685D4EE458DA429EE5E19A4CDE9C58BA040F2A2B8BEC6BC6CE0')
   INSERT [$(DatabaseName)].[dbo].[__MigrationLog] ([migration_id], [script_checksum], [script_filename], [complete_dt], [applied_by], [deployed], [version], [package_version], [release_version])
-  VALUES                                         (CAST ('9170f158-c470-5b3f-8c5e-735a4c2f9ba4' AS UNIQUEIDENTIFIER), '764FB99F8A6B685E4A0ABDCFCDAE6D4F66FA2E8B5AF566D33FAF956E81AA1253', 'Programmable Objects\dbo\Stored Procedures\GetContacts.sql', SYSDATETIME(), SYSTEM_USER, 1, NULL, '$(PackageVersion)', CASE '$(ReleaseVersion)' WHEN '' THEN NULL ELSE '$(ReleaseVersion)' END);
+  VALUES                                         (CAST ('9170f158-c470-5b3f-8c5e-735a4c2f9ba4' AS UNIQUEIDENTIFIER), '7B7F5348875EF685D4EE458DA429EE5E19A4CDE9C58BA040F2A2B8BEC6BC6CE0', 'Programmable Objects\dbo\Stored Procedures\GetContacts.sql', SYSDATETIME(), SYSTEM_USER, 1, NULL, '$(PackageVersion)', CASE '$(ReleaseVersion)' WHEN '' THEN NULL ELSE '$(ReleaseVersion)' END);
 
 GO
 SET IMPLICIT_TRANSACTIONS, NUMERIC_ROUNDABORT OFF;
