@@ -1,5 +1,5 @@
 ﻿/*
-    Generated date:     2020-09-01T13:52:10Z
+    Generated date:     2020-09-01T14:01:12Z
     Generated on:       SLS-LT-ANDERSON
     Package version:    
     Migration version:  (n/a)
@@ -877,6 +877,904 @@ IF DB_NAME() != '$(DatabaseName)'
   USE [$(DatabaseName)];
 
 GO
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('dd343b50-1532-4421-8819-2b748a2c31f3' AS UNIQUEIDENTIFIER))
+  PRINT '
+
+***** EXECUTING MIGRATION "Migrations\1.1.0-Changes\003_20200901-1359_Anderson.Rangel.sql", ID: {dd343b50-1532-4421-8819-2b748a2c31f3} *****';
+
+GO
+IF EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('dd343b50-1532-4421-8819-2b748a2c31f3' AS UNIQUEIDENTIFIER))
+BEGIN
+  PRINT '----- Skipping "Migrations\1.1.0-Changes\003_20200901-1359_Anderson.Rangel.sql", ID: {dd343b50-1532-4421-8819-2b748a2c31f3} as it has already been run on this database';
+  SET NOEXEC ON;
+END
+
+GO
+EXECUTE ('
+PRINT N''Creating [dbo].[Blogs]''
+');
+
+GO
+EXECUTE ('CREATE TABLE [dbo].[Blogs]
+(
+[BlogsID] [int] NOT NULL IDENTITY(1, 1),
+[AuthorID] [int] NULL,
+[Title] [char] (142) NULL,
+[PublishDate] [datetime] NULL,
+[Article] [nvarchar] (50) NULL
+)
+');
+
+GO
+EXECUTE ('PRINT N''Creating primary key [PK__Blogs__C03C1E467AEB09A9] on [dbo].[Blogs]''
+');
+
+GO
+EXECUTE ('ALTER TABLE [dbo].[Blogs] ADD CONSTRAINT [PK__Blogs__C03C1E467AEB09A9] PRIMARY KEY CLUSTERED  ([BlogsID])
+');
+
+GO
+EXECUTE ('PRINT N''Creating [dbo].[BlogComments]''
+');
+
+GO
+EXECUTE ('CREATE TABLE [dbo].[BlogComments]
+(
+[BlogCommentsID] [int] NOT NULL IDENTITY(1, 1),
+[BlogsID] [int] NOT NULL,
+[CommentText] [nvarchar] (200) NULL,
+[CommentDate] [datetime] NOT NULL
+)
+');
+
+GO
+EXECUTE ('PRINT N''Creating primary key [PK__BlogComments] on [dbo].[BlogComments]''
+');
+
+GO
+EXECUTE ('ALTER TABLE [dbo].[BlogComments] ADD CONSTRAINT [PK__BlogComments] PRIMARY KEY CLUSTERED  ([BlogCommentsID])
+');
+
+GO
+EXECUTE ('PRINT N''Creating [dbo].[CountryCodes]''
+');
+
+GO
+EXECUTE ('CREATE TABLE [dbo].[CountryCodes]
+(
+[CountryName] [nvarchar] (255) NULL,
+[CountryCode] [nvarchar] (4) NOT NULL
+)
+');
+
+GO
+EXECUTE ('PRINT N''Creating primary key [PK_Countries] on [dbo].[CountryCodes]''
+');
+
+GO
+EXECUTE ('ALTER TABLE [dbo].[CountryCodes] ADD CONSTRAINT [PK_Countries] PRIMARY KEY CLUSTERED  ([CountryCode])
+');
+
+GO
+EXECUTE ('PRINT N''Creating [dbo].[Contacts]''
+');
+
+GO
+EXECUTE ('CREATE TABLE [dbo].[Contacts]
+(
+[ContactsID] [int] NOT NULL IDENTITY(1, 1),
+[ContactFullName] [nvarchar] (100) NOT NULL,
+[PhoneWork] [nvarchar] (25) NULL,
+[PhoneMobile] [nvarchar] (25) NULL,
+[Address1] [nvarchar] (128) NULL,
+[Address2] [nvarchar] (128) NULL,
+[Address3] [nvarchar] (128) NULL,
+[CountryCode] [nvarchar] (4) NULL CONSTRAINT [DF__Contacts__Countr__117F9D94] DEFAULT (N''US''),
+[JoiningDate] [datetime] NULL CONSTRAINT [DF__Contacts__Joinin__1273C1CD] DEFAULT (getdate()),
+[ModifiedDate] [datetime] NULL,
+[Email] [nvarchar] (256) NULL,
+[Photo] [image] NULL,
+[LinkedIn] [nvarchar] (128) NULL
+)
+');
+
+GO
+EXECUTE ('PRINT N''Creating primary key [PK__Contacts__912F378B7C53D1A0] on [dbo].[Contacts]''
+');
+
+GO
+EXECUTE ('ALTER TABLE [dbo].[Contacts] ADD CONSTRAINT [PK__Contacts__912F378B7C53D1A0] PRIMARY KEY CLUSTERED  ([ContactsID])
+');
+
+GO
+EXECUTE ('PRINT N''Creating [dbo].[Articles]''
+');
+
+GO
+EXECUTE ('CREATE TABLE [dbo].[Articles]
+(
+[ArticlesID] [int] NOT NULL IDENTITY(1, 1),
+[AuthorID] [int] NULL,
+[Title] [char] (142) NULL,
+[Description] [varchar] (max) NULL,
+[Article] [varchar] (max) NULL,
+[PublishDate] [datetime] NULL,
+[ModifiedDate] [datetime] NULL,
+[URL] [char] (200) NULL,
+[Comments] [int] NULL
+)
+');
+
+GO
+EXECUTE ('PRINT N''Creating primary key [PK_Article] on [dbo].[Articles]''
+');
+
+GO
+EXECUTE ('ALTER TABLE [dbo].[Articles] ADD CONSTRAINT [PK_Article] PRIMARY KEY CLUSTERED  ([ArticlesID])
+');
+
+GO
+EXECUTE ('PRINT N''Creating [dbo].[ArticleDescriptions]''
+');
+
+GO
+EXECUTE ('CREATE TABLE [dbo].[ArticleDescriptions]
+(
+[ArticlesID] [int] NOT NULL IDENTITY(1, 1),
+[ShortDescription] [nvarchar] (2000) NULL,
+[Description] [text] NULL,
+[ArticlesName] [varchar] (50) NULL,
+[Picture] [image] NULL
+)
+');
+
+GO
+EXECUTE ('PRINT N''Creating primary key [PK_ArticleDescriptions] on [dbo].[ArticleDescriptions]''
+');
+
+GO
+EXECUTE ('ALTER TABLE [dbo].[ArticleDescriptions] ADD CONSTRAINT [PK_ArticleDescriptions] PRIMARY KEY CLUSTERED  ([ArticlesID])
+');
+
+GO
+EXECUTE ('PRINT N''Creating [dbo].[ArticlePrices]''
+');
+
+GO
+EXECUTE ('CREATE TABLE [dbo].[ArticlePrices]
+(
+[ArticlePricesID] [int] NOT NULL IDENTITY(1, 1),
+[ArticlesID] [int] NULL,
+[Price] [money] NULL,
+[ValidFrom] [datetime] NULL CONSTRAINT [DF__ArticlePr__Valid__1CF15040] DEFAULT (getdate()),
+[ValidTo] [datetime] NULL,
+[Active] [char] (1) NULL CONSTRAINT [DF__ArticlePr__Activ__1DE57479] DEFAULT (''N''),
+[SalesPrice] [char] (1) NULL
+)
+');
+
+GO
+EXECUTE ('PRINT N''Creating primary key [PK_ArticlePrices] on [dbo].[ArticlePrices]''
+');
+
+GO
+EXECUTE ('ALTER TABLE [dbo].[ArticlePrices] ADD CONSTRAINT [PK_ArticlePrices] PRIMARY KEY CLUSTERED  ([ArticlePricesID])
+');
+
+GO
+EXECUTE ('PRINT N''Creating index [IX_ArticlePrices] on [dbo].[ArticlePrices]''
+');
+
+GO
+EXECUTE ('CREATE NONCLUSTERED INDEX [IX_ArticlePrices] ON [dbo].[ArticlePrices] ([ArticlesID])
+');
+
+GO
+EXECUTE ('PRINT N''Creating index [IX_ArticlePrices_1] on [dbo].[ArticlePrices]''
+');
+
+GO
+EXECUTE ('CREATE NONCLUSTERED INDEX [IX_ArticlePrices_1] ON [dbo].[ArticlePrices] ([ValidFrom])
+');
+
+GO
+EXECUTE ('PRINT N''Creating index [IX_ArticlePrices_2] on [dbo].[ArticlePrices]''
+');
+
+GO
+EXECUTE ('CREATE NONCLUSTERED INDEX [IX_ArticlePrices_2] ON [dbo].[ArticlePrices] ([ValidTo])
+');
+
+GO
+EXECUTE ('PRINT N''Creating [dbo].[ArticleReferences]''
+');
+
+GO
+EXECUTE ('CREATE TABLE [dbo].[ArticleReferences]
+(
+[ArticlesID] [int] NOT NULL IDENTITY(1, 1),
+[Reference] [varchar] (50) NULL
+)
+');
+
+GO
+EXECUTE ('PRINT N''Creating primary key [PK_ArticleReferences] on [dbo].[ArticleReferences]''
+');
+
+GO
+EXECUTE ('ALTER TABLE [dbo].[ArticleReferences] ADD CONSTRAINT [PK_ArticleReferences] PRIMARY KEY CLUSTERED  ([ArticlesID])
+');
+
+GO
+EXECUTE ('PRINT N''Creating [dbo].[RSSFeeds]''
+');
+
+GO
+EXECUTE ('CREATE TABLE [dbo].[RSSFeeds]
+(
+[RSSFeedID] [int] NOT NULL IDENTITY(1, 1),
+[FeedName] [varchar] (max) NULL,
+[Checked] [bit] NULL,
+[FeedBurner] [bit] NOT NULL
+)
+');
+
+GO
+EXECUTE ('PRINT N''Creating primary key [PK__RSSFeeds__DF1690F2C1F77AC5] on [dbo].[RSSFeeds]''
+');
+
+GO
+EXECUTE ('ALTER TABLE [dbo].[RSSFeeds] ADD CONSTRAINT [PK__RSSFeeds__DF1690F2C1F77AC5] PRIMARY KEY CLUSTERED  ([RSSFeedID])
+');
+
+GO
+EXECUTE ('PRINT N''Creating [dbo].[ArticlePurchases]''
+');
+
+GO
+EXECUTE ('CREATE TABLE [dbo].[ArticlePurchases]
+(
+[ArticlePurchasesID] [int] NOT NULL IDENTITY(1, 1),
+[ArticlePricesID] [int] NOT NULL,
+[Quantity] [int] NOT NULL CONSTRAINT [DF__ArticlePu__Quant__22AA2996] DEFAULT ((1)),
+[InvoiceNumber] [nvarchar] (20) NULL,
+[PurchaseDate] [datetime] NOT NULL
+)
+');
+
+GO
+EXECUTE ('PRINT N''Creating primary key [PK_ArticlePurchases] on [dbo].[ArticlePurchases]''
+');
+
+GO
+EXECUTE ('ALTER TABLE [dbo].[ArticlePurchases] ADD CONSTRAINT [PK_ArticlePurchases] PRIMARY KEY CLUSTERED  ([ArticlePurchasesID])
+');
+
+GO
+EXECUTE ('PRINT N''Creating [dbo].[PersonData]''
+');
+
+GO
+EXECUTE ('CREATE TABLE [dbo].[PersonData]
+(
+[ID] [int] NOT NULL IDENTITY(1, 1),
+[NAME] [nvarchar] (200) NOT NULL,
+[Email1] [nvarchar] (200) NULL,
+[Email2] [nvarchar] (200) NULL,
+[Phone1] [nvarchar] (100) NULL,
+[Phone2] [nvarchar] (100) NULL,
+[Street1] [nvarchar] (200) NULL,
+[City1] [nvarchar] (200) NULL,
+[StateProvince1] [nvarchar] (50) NULL,
+[PostalCode1] [nvarchar] (50) NULL,
+[Street2] [nvarchar] (200) NULL,
+[City2] [nvarchar] (200) NULL,
+[StateProvince2] [nvarchar] (50) NULL,
+[PostalCode2] [nvarchar] (50) NULL
+)
+');
+
+GO
+EXECUTE ('PRINT N''Creating primary key [PK__PersonDa__3214EC27CA5DC9C3] on [dbo].[PersonData]''
+');
+
+GO
+EXECUTE ('ALTER TABLE [dbo].[PersonData] ADD CONSTRAINT [PK__PersonDa__3214EC27CA5DC9C3] PRIMARY KEY CLUSTERED  ([ID])
+');
+
+GO
+EXECUTE ('PRINT N''Adding foreign keys to [dbo].[ArticleDescriptions]''
+');
+
+GO
+EXECUTE ('ALTER TABLE [dbo].[ArticleDescriptions] ADD CONSTRAINT [FK_ArticleDescriptions] FOREIGN KEY ([ArticlesID]) REFERENCES [dbo].[Articles] ([ArticlesID])
+');
+
+GO
+EXECUTE ('PRINT N''Adding foreign keys to [dbo].[ArticlePrices]''
+');
+
+GO
+EXECUTE ('ALTER TABLE [dbo].[ArticlePrices] ADD CONSTRAINT [FK_ArticlePrices] FOREIGN KEY ([ArticlesID]) REFERENCES [dbo].[Articles] ([ArticlesID])
+');
+
+GO
+EXECUTE ('PRINT N''Adding foreign keys to [dbo].[ArticleReferences]''
+');
+
+GO
+EXECUTE ('ALTER TABLE [dbo].[ArticleReferences] ADD CONSTRAINT [FK_Articles] FOREIGN KEY ([ArticlesID]) REFERENCES [dbo].[Articles] ([ArticlesID])
+');
+
+GO
+EXECUTE ('PRINT N''Adding foreign keys to [dbo].[Articles]''
+');
+
+GO
+EXECUTE ('ALTER TABLE [dbo].[Articles] ADD CONSTRAINT [FK_Author] FOREIGN KEY ([AuthorID]) REFERENCES [dbo].[Contacts] ([ContactsID])
+');
+
+GO
+EXECUTE ('PRINT N''Adding foreign keys to [dbo].[BlogComments]''
+');
+
+GO
+EXECUTE ('ALTER TABLE [dbo].[BlogComments] ADD CONSTRAINT [FK__BlogComments] FOREIGN KEY ([BlogsID]) REFERENCES [dbo].[Blogs] ([BlogsID])
+');
+
+GO
+EXECUTE ('PRINT N''Adding foreign keys to [dbo].[Blogs]''
+');
+
+GO
+EXECUTE ('ALTER TABLE [dbo].[Blogs] ADD CONSTRAINT [FK_BlogAuthor] FOREIGN KEY ([AuthorID]) REFERENCES [dbo].[Contacts] ([ContactsID])
+');
+
+GO
+EXECUTE ('PRINT N''Adding foreign keys to [dbo].[Contacts]''
+');
+
+GO
+EXECUTE ('ALTER TABLE [dbo].[Contacts] ADD CONSTRAINT [FK__Contacts__Countr__145C0A3F] FOREIGN KEY ([CountryCode]) REFERENCES [dbo].[CountryCodes] ([CountryCode])
+');
+
+GO
+EXECUTE ('PRINT N''Creating extended properties''
+');
+
+GO
+EXECUTE ('EXEC sp_addextendedproperty N''MS_Description'', N''A short summary of the article appearing on the main Simple Talk page'', ''SCHEMA'', N''dbo'', ''TABLE'', N''ArticleDescriptions'', NULL, NULL
+');
+
+GO
+EXECUTE ('EXEC sp_addextendedproperty N''MS_Description'', N''Deprecated - do not use'', ''SCHEMA'', N''dbo'', ''TABLE'', N''ArticleDescriptions'', ''COLUMN'', N''ArticlesName''
+');
+
+GO
+EXECUTE ('EXEC sp_addextendedproperty N''MS_Description'', N''Deprecated - do not use'', ''SCHEMA'', N''dbo'', ''TABLE'', N''ArticleDescriptions'', ''COLUMN'', N''Description''
+');
+
+GO
+EXECUTE ('EXEC sp_addextendedproperty N''MS_Description'', N''Deprecated - do not use'', ''SCHEMA'', N''dbo'', ''TABLE'', N''ArticleDescriptions'', ''COLUMN'', N''Picture''
+');
+
+GO
+EXECUTE ('EXEC sp_addextendedproperty N''MS_Description'', N''The description that appears on the main web page'', ''SCHEMA'', N''dbo'', ''TABLE'', N''ArticleDescriptions'', ''COLUMN'', N''ShortDescription''
+');
+
+GO
+EXECUTE ('EXEC sp_addextendedproperty N''MS_Description'', N''How much was paid for the article'', ''SCHEMA'', N''dbo'', ''TABLE'', N''ArticlePrices'', NULL, NULL
+');
+
+GO
+EXECUTE ('EXEC sp_addextendedproperty N''MS_Description'', N''References listed in an article'', ''SCHEMA'', N''dbo'', ''TABLE'', N''ArticleReferences'', NULL, NULL
+');
+
+GO
+EXECUTE ('EXEC sp_addextendedproperty N''MS_Description'', N''Table of Simple Talk articles'', ''SCHEMA'', N''dbo'', ''TABLE'', N''Articles'', NULL, NULL
+');
+
+GO
+EXECUTE ('EXEC sp_addextendedproperty N''MS_Description'', N''The actual article content'', ''SCHEMA'', N''dbo'', ''TABLE'', N''Articles'', ''COLUMN'', N''Article''
+');
+
+GO
+EXECUTE ('EXEC sp_addextendedproperty N''MS_Description'', N''The number of reader comments for a given article'', ''SCHEMA'', N''dbo'', ''TABLE'', N''Articles'', ''COLUMN'', N''Comments''
+');
+
+GO
+EXECUTE ('EXEC sp_addextendedproperty N''MS_Description'', N''A short description of the article going between the title and "read more"'', ''SCHEMA'', N''dbo'', ''TABLE'', N''Articles'', ''COLUMN'', N''Description''
+');
+
+GO
+EXECUTE ('EXEC sp_addextendedproperty N''MS_Description'', N''When the article was last modified'', ''SCHEMA'', N''dbo'', ''TABLE'', N''Articles'', ''COLUMN'', N''ModifiedDate''
+');
+
+GO
+EXECUTE ('EXEC sp_addextendedproperty N''MS_Description'', N''When the article was published'', ''SCHEMA'', N''dbo'', ''TABLE'', N''Articles'', ''COLUMN'', N''PublishDate''
+');
+
+GO
+EXECUTE ('EXEC sp_addextendedproperty N''MS_Description'', N''The main title - appears on main web page as well as heading the article page'', ''SCHEMA'', N''dbo'', ''TABLE'', N''Articles'', ''COLUMN'', N''Title''
+');
+
+GO
+EXECUTE ('EXEC sp_addextendedproperty N''MS_Description'', N''The hyperlink when the title or "read more" is clicked'', ''SCHEMA'', N''dbo'', ''TABLE'', N''Articles'', ''COLUMN'', N''URL''
+');
+
+GO
+EXECUTE ('EXEC sp_addextendedproperty N''MS_Description'', N''Comments made by readers'', ''SCHEMA'', N''dbo'', ''TABLE'', N''BlogComments'', NULL, NULL
+');
+
+GO
+EXECUTE ('EXEC sp_addextendedproperty N''MS_Description'', N''The date the comment was made'', ''SCHEMA'', N''dbo'', ''TABLE'', N''BlogComments'', ''COLUMN'', N''CommentDate''
+');
+
+GO
+EXECUTE ('EXEC sp_addextendedproperty N''MS_Description'', N''The text for the comment'', ''SCHEMA'', N''dbo'', ''TABLE'', N''BlogComments'', ''COLUMN'', N''CommentText''
+');
+
+GO
+EXECUTE ('EXEC sp_addextendedproperty N''MS_Description'', N''Blog posts made by Simple Talk members'', ''SCHEMA'', N''dbo'', ''TABLE'', N''Blogs'', NULL, NULL
+');
+
+GO
+EXECUTE ('EXEC sp_addextendedproperty N''MS_Description'', N''Authors link back to the Contacts table'', ''SCHEMA'', N''dbo'', ''TABLE'', N''Blogs'', ''COLUMN'', N''AuthorID''
+');
+
+GO
+EXECUTE ('EXEC sp_addextendedproperty N''MS_Description'', N''Date the Blog was published'', ''SCHEMA'', N''dbo'', ''TABLE'', N''Blogs'', ''COLUMN'', N''PublishDate''
+');
+
+GO
+EXECUTE ('EXEC sp_addextendedproperty N''MS_Description'', N''Title of a Blog'', ''SCHEMA'', N''dbo'', ''TABLE'', N''Blogs'', ''COLUMN'', N''Title''
+');
+
+GO
+EXECUTE ('EXEC sp_addextendedproperty N''MS_Description'', N''A list of all Simple Talk members, including authors, bloggers, and any other member or contributor'', ''SCHEMA'', N''dbo'', ''TABLE'', N''Contacts'', NULL, NULL
+');
+
+GO
+EXECUTE ('EXEC sp_addextendedproperty N''MS_Description'', N''Contact name'', ''SCHEMA'', N''dbo'', ''TABLE'', N''Contacts'', ''COLUMN'', N''ContactFullName''
+');
+
+GO
+EXECUTE ('EXEC sp_addextendedproperty N''MS_Description'', N''Country for the given address'', ''SCHEMA'', N''dbo'', ''TABLE'', N''Contacts'', ''COLUMN'', N''CountryCode''
+');
+
+GO
+EXECUTE ('EXEC sp_addextendedproperty N''MS_Description'', N''Contact email address'', ''SCHEMA'', N''dbo'', ''TABLE'', N''Contacts'', ''COLUMN'', N''Email''
+');
+
+GO
+EXECUTE ('EXEC sp_addextendedproperty N''MS_Description'', N''When the contact joined Simple Talk'', ''SCHEMA'', N''dbo'', ''TABLE'', N''Contacts'', ''COLUMN'', N''JoiningDate''
+');
+
+GO
+EXECUTE ('EXEC sp_addextendedproperty N''MS_Description'', N''When the contact details were last modified'', ''SCHEMA'', N''dbo'', ''TABLE'', N''Contacts'', ''COLUMN'', N''ModifiedDate''
+');
+
+GO
+EXECUTE ('EXEC sp_addextendedproperty N''MS_Description'', N''Photo of contact, especially authors.
+This is now deprecated as the photos are saved as image files outside of the database.'', ''SCHEMA'', N''dbo'', ''TABLE'', N''Contacts'', ''COLUMN'', N''Photo''
+');
+
+GO
+EXECUTE ('EXEC sp_addextendedproperty N''MS_Description'', N''A list of country codes 
+ISO 3166-1-alpha-2 code
+http://www.iso.org/iso/country_codes/iso_3166_code_lists/country_names_and_code_elements.htm'', ''SCHEMA'', N''dbo'', ''TABLE'', N''CountryCodes'', NULL, NULL
+');
+
+GO
+EXECUTE ('EXEC sp_addextendedproperty N''MS_Description'', N''In theory shouldn''''t need more than two characters'', ''SCHEMA'', N''dbo'', ''TABLE'', N''CountryCodes'', ''COLUMN'', N''CountryCode''
+');
+
+GO
+EXECUTE ('EXEC sp_addextendedproperty N''MS_Description'', N''A feature to create a custom RSS feed'', ''SCHEMA'', N''dbo'', ''TABLE'', N''RSSFeeds'', NULL, NULL
+');
+
+GO
+EXECUTE ('EXEC sp_addextendedproperty N''MS_Description'', N''Whether checked by default on the list offered to users'', ''SCHEMA'', N''dbo'', ''TABLE'', N''RSSFeeds'', ''COLUMN'', N''Checked''
+');
+
+GO
+EXECUTE ('EXEC sp_addextendedproperty N''MS_Description'', N''Eg, SQL, .NET, SysAdmin, Opinion etc.'', ''SCHEMA'', N''dbo'', ''TABLE'', N''RSSFeeds'', ''COLUMN'', N''FeedName''
+');
+
+GO
+SET NOEXEC OFF;
+
+GO
+IF N'$(IsSqlCmdEnabled)' <> N'True'
+  SET NOEXEC ON;
+
+GO
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('dd343b50-1532-4421-8819-2b748a2c31f3' AS UNIQUEIDENTIFIER))
+  PRINT '***** FINISHED EXECUTING MIGRATION "Migrations\1.1.0-Changes\003_20200901-1359_Anderson.Rangel.sql", ID: {dd343b50-1532-4421-8819-2b748a2c31f3} *****
+';
+
+GO
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('dd343b50-1532-4421-8819-2b748a2c31f3' AS UNIQUEIDENTIFIER))
+  INSERT [$(DatabaseName)].[dbo].[__MigrationLog] ([migration_id], [script_checksum], [script_filename], [complete_dt], [applied_by], [deployed], [version], [package_version], [release_version])
+  VALUES                                         (CAST ('dd343b50-1532-4421-8819-2b748a2c31f3' AS UNIQUEIDENTIFIER), '4750C7FAC920A6C8F83B72D3EAFE824E57CCFC1CFEF751410441319365BB3C05', 'Migrations\1.1.0-Changes\003_20200901-1359_Anderson.Rangel.sql', SYSDATETIME(), SYSTEM_USER, 1, NULL, '$(PackageVersion)', CASE '$(ReleaseVersion)' WHEN '' THEN NULL ELSE '$(ReleaseVersion)' END);
+
+GO
+SET IMPLICIT_TRANSACTIONS, NUMERIC_ROUNDABORT OFF;
+SET ANSI_NULLS, ANSI_PADDING, ANSI_WARNINGS, ARITHABORT, CONCAT_NULL_YIELDS_NULL, NOCOUNT, QUOTED_IDENTIFIER ON;
+
+GO
+IF DB_NAME() != '$(DatabaseName)'
+  USE [$(DatabaseName)];
+
+GO
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('a1a64e2d-f9fc-44e8-8776-a28802659c9f' AS UNIQUEIDENTIFIER))
+  PRINT '
+
+***** EXECUTING MIGRATION "Migrations\1.1.0-Changes\004_20200901-1400_Anderson.Rangel.sql", ID: {a1a64e2d-f9fc-44e8-8776-a28802659c9f} *****';
+
+GO
+IF EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('a1a64e2d-f9fc-44e8-8776-a28802659c9f' AS UNIQUEIDENTIFIER))
+BEGIN
+  PRINT '----- Skipping "Migrations\1.1.0-Changes\004_20200901-1400_Anderson.Rangel.sql", ID: {a1a64e2d-f9fc-44e8-8776-a28802659c9f} as it has already been run on this database';
+  SET NOEXEC ON;
+END
+
+GO
+EXECUTE ('
+
+SET DATEFORMAT YMD;
+
+
+');
+
+GO
+EXECUTE ('IF (SELECT COUNT(*)
+    FROM   [dbo].[RSSFeeds]) = 0
+    BEGIN
+        PRINT (N''Add 4 rows to [dbo].[RSSFeeds]'');
+        SET IDENTITY_INSERT [dbo].[RSSFeeds] ON;
+        INSERT  INTO [dbo].[RSSFeeds] ([RSSFeedID], [FeedName], [Checked], [FeedBurner])
+        VALUES                       (1, ''SQL'', 1, 0);
+        INSERT  INTO [dbo].[RSSFeeds] ([RSSFeedID], [FeedName], [Checked], [FeedBurner])
+        VALUES                       (2, ''.NET'', 1, 1);
+        INSERT  INTO [dbo].[RSSFeeds] ([RSSFeedID], [FeedName], [Checked], [FeedBurner])
+        VALUES                       (3, ''SysAdmin'', 1, 0);
+        INSERT  INTO [dbo].[RSSFeeds] ([RSSFeedID], [FeedName], [Checked], [FeedBurner])
+        VALUES                       (4, ''Opinion'', 1, 1);
+        SET IDENTITY_INSERT [dbo].[RSSFeeds] OFF;
+    END
+
+
+');
+
+GO
+SET NOEXEC OFF;
+
+GO
+IF N'$(IsSqlCmdEnabled)' <> N'True'
+  SET NOEXEC ON;
+
+GO
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('a1a64e2d-f9fc-44e8-8776-a28802659c9f' AS UNIQUEIDENTIFIER))
+  PRINT '***** FINISHED EXECUTING MIGRATION "Migrations\1.1.0-Changes\004_20200901-1400_Anderson.Rangel.sql", ID: {a1a64e2d-f9fc-44e8-8776-a28802659c9f} *****
+';
+
+GO
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('a1a64e2d-f9fc-44e8-8776-a28802659c9f' AS UNIQUEIDENTIFIER))
+  INSERT [$(DatabaseName)].[dbo].[__MigrationLog] ([migration_id], [script_checksum], [script_filename], [complete_dt], [applied_by], [deployed], [version], [package_version], [release_version])
+  VALUES                                         (CAST ('a1a64e2d-f9fc-44e8-8776-a28802659c9f' AS UNIQUEIDENTIFIER), 'CDAD9C05B7DE2C3DE321686347C80FD8D768E0B163254A6C9ACBE18425851833', 'Migrations\1.1.0-Changes\004_20200901-1400_Anderson.Rangel.sql', SYSDATETIME(), SYSTEM_USER, 1, NULL, '$(PackageVersion)', CASE '$(ReleaseVersion)' WHEN '' THEN NULL ELSE '$(ReleaseVersion)' END);
+
+GO
+SET IMPLICIT_TRANSACTIONS, NUMERIC_ROUNDABORT OFF;
+SET ANSI_NULLS, ANSI_PADDING, ANSI_WARNINGS, ARITHABORT, CONCAT_NULL_YIELDS_NULL, NOCOUNT, QUOTED_IDENTIFIER ON;
+
+GO
+IF DB_NAME() != '$(DatabaseName)'
+  USE [$(DatabaseName)];
+
+GO
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('0f8695ea-5895-520c-9d2c-a7a44293fe3a' AS UNIQUEIDENTIFIER) AND [script_checksum] = '62228A6EFE5DA325CF767BFB2BB2F8C9A45EBD301A8DF505A0087EE086894873')
+  PRINT '
+
+***** EXECUTING MIGRATION "Programmable Objects\dbo\Functions\calculateEstimateOfReadingTime.sql", ID: {0f8695ea-5895-520c-9d2c-a7a44293fe3a} *****';
+
+GO
+IF EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('0f8695ea-5895-520c-9d2c-a7a44293fe3a' AS UNIQUEIDENTIFIER) AND [script_checksum] = '62228A6EFE5DA325CF767BFB2BB2F8C9A45EBD301A8DF505A0087EE086894873')
+BEGIN
+  PRINT '----- Skipping "Programmable Objects\dbo\Functions\calculateEstimateOfReadingTime.sql", ID: {0f8695ea-5895-520c-9d2c-a7a44293fe3a} as there are no changes to deploy';
+  SET NOEXEC ON;
+END
+
+GO
+EXECUTE ('IF OBJECT_ID(''[dbo].[calculateEstimateOfReadingTime]'') IS NOT NULL
+	DROP FUNCTION [dbo].[calculateEstimateOfReadingTime];
+
+');
+
+GO
+SET QUOTED_IDENTIFIER ON
+
+GO
+SET ANSI_NULLS ON
+
+GO
+EXECUTE ('-- This is a much more accurate function
+CREATE FUNCTION [dbo].[calculateEstimateOfReadingTime] ( @value VARCHAR(MAX) )
+RETURNS INT
+    BEGIN
+        DECLARE @ret AS INT = 1 ,
+            @i AS INT = 1;
+        WHILE @i <= LEN(@value) 
+            BEGIN
+                IF SUBSTRING(@value, @i, 1) = '' '' 
+                    BEGIN
+                        SET @ret = @ret + 1;
+                    END
+                SET @i = @i + 1;
+            END  
+        RETURN @ret / 250;
+    END
+');
+
+GO
+EXECUTE ('EXEC sp_addextendedproperty N''MS_Description'', N''Function to estimate how long an average reader will take to read an article based on its length.
+This is infomation that will be displayed alongside the article summary on the main Simple Talk home page.
+Research indicates that an average person can read 250 words in a minute.'', ''SCHEMA'', N''dbo'', ''FUNCTION'', N''calculateEstimateOfReadingTime'', NULL, NULL
+');
+
+GO
+EXECUTE ('EXEC sp_addextendedproperty N''MS_Description'', N''The article text'', ''SCHEMA'', N''dbo'', ''FUNCTION'', N''calculateEstimateOfReadingTime'', ''PARAMETER'', N''@value''
+');
+
+GO
+SET NOEXEC OFF;
+
+GO
+IF N'$(IsSqlCmdEnabled)' <> N'True'
+  SET NOEXEC ON;
+
+GO
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('0f8695ea-5895-520c-9d2c-a7a44293fe3a' AS UNIQUEIDENTIFIER) AND [script_checksum] = '62228A6EFE5DA325CF767BFB2BB2F8C9A45EBD301A8DF505A0087EE086894873')
+  PRINT '***** FINISHED EXECUTING MIGRATION "Programmable Objects\dbo\Functions\calculateEstimateOfReadingTime.sql", ID: {0f8695ea-5895-520c-9d2c-a7a44293fe3a} *****
+';
+
+GO
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('0f8695ea-5895-520c-9d2c-a7a44293fe3a' AS UNIQUEIDENTIFIER) AND [script_checksum] = '62228A6EFE5DA325CF767BFB2BB2F8C9A45EBD301A8DF505A0087EE086894873')
+  INSERT [$(DatabaseName)].[dbo].[__MigrationLog] ([migration_id], [script_checksum], [script_filename], [complete_dt], [applied_by], [deployed], [version], [package_version], [release_version])
+  VALUES                                         (CAST ('0f8695ea-5895-520c-9d2c-a7a44293fe3a' AS UNIQUEIDENTIFIER), '62228A6EFE5DA325CF767BFB2BB2F8C9A45EBD301A8DF505A0087EE086894873', 'Programmable Objects\dbo\Functions\calculateEstimateOfReadingTime.sql', SYSDATETIME(), SYSTEM_USER, 1, NULL, '$(PackageVersion)', CASE '$(ReleaseVersion)' WHEN '' THEN NULL ELSE '$(ReleaseVersion)' END);
+
+GO
+SET IMPLICIT_TRANSACTIONS, NUMERIC_ROUNDABORT OFF;
+SET ANSI_NULLS, ANSI_PADDING, ANSI_WARNINGS, ARITHABORT, CONCAT_NULL_YIELDS_NULL, NOCOUNT, QUOTED_IDENTIFIER ON;
+
+GO
+IF DB_NAME() != '$(DatabaseName)'
+  USE [$(DatabaseName)];
+
+GO
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('912c82cd-bd4b-519b-bb52-4faebd519829' AS UNIQUEIDENTIFIER) AND [script_checksum] = '9DCBAD29D7429335C8833743F77295D8A8BF6DD35DFAC1C26208614860F7BEAA')
+  PRINT '
+
+***** EXECUTING MIGRATION "Programmable Objects\dbo\Views\v_Articles.sql", ID: {912c82cd-bd4b-519b-bb52-4faebd519829} *****';
+
+GO
+IF EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('912c82cd-bd4b-519b-bb52-4faebd519829' AS UNIQUEIDENTIFIER) AND [script_checksum] = '9DCBAD29D7429335C8833743F77295D8A8BF6DD35DFAC1C26208614860F7BEAA')
+BEGIN
+  PRINT '----- Skipping "Programmable Objects\dbo\Views\v_Articles.sql", ID: {912c82cd-bd4b-519b-bb52-4faebd519829} as there are no changes to deploy';
+  SET NOEXEC ON;
+END
+
+GO
+EXECUTE ('IF OBJECT_ID(''[dbo].[v_Articles]'') IS NOT NULL
+	DROP VIEW [dbo].[v_Articles];
+
+');
+
+GO
+SET QUOTED_IDENTIFIER ON
+
+GO
+SET ANSI_NULLS ON
+
+GO
+EXECUTE ('/* This view gets called from the ST web app to show the articles */
+CREATE VIEW [dbo].[v_Articles]
+AS
+    SELECT  TOP 250 a.[Title] ,
+            a.[PublishDate] ,
+            a.[Description] ,
+            a.[URL] ,
+            a.[Comments], 
+			dbo.calculateEstimateOfReadingTime(a.Article) AS readingTime,
+            c.[ContactFullName] ,
+			c.[Photo],
+			cc.CountryCode,
+			cc.CountryName
+    FROM    Articles a
+		        LEFT JOIN Contacts c ON a.AuthorID = c.ContactsID
+			LEFT JOIN dbo.CountryCodes cc ON c.CountryCode = cc.Countrycode
+');
+
+GO
+EXECUTE ('EXEC sp_addextendedproperty N''MS_Description'', N''This is the view that is called from the web application to display the articles on the main Simple Talk website'', ''SCHEMA'', N''dbo'', ''VIEW'', N''v_Articles'', NULL, NULL
+');
+
+GO
+EXECUTE ('EXEC sp_addextendedproperty N''MS_Description'', N''Note: photos are no longer pulled from the database.'', ''SCHEMA'', N''dbo'', ''VIEW'', N''v_Articles'', ''COLUMN'', N''Photo''
+');
+
+GO
+SET NOEXEC OFF;
+
+GO
+IF N'$(IsSqlCmdEnabled)' <> N'True'
+  SET NOEXEC ON;
+
+GO
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('912c82cd-bd4b-519b-bb52-4faebd519829' AS UNIQUEIDENTIFIER) AND [script_checksum] = '9DCBAD29D7429335C8833743F77295D8A8BF6DD35DFAC1C26208614860F7BEAA')
+  PRINT '***** FINISHED EXECUTING MIGRATION "Programmable Objects\dbo\Views\v_Articles.sql", ID: {912c82cd-bd4b-519b-bb52-4faebd519829} *****
+';
+
+GO
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('912c82cd-bd4b-519b-bb52-4faebd519829' AS UNIQUEIDENTIFIER) AND [script_checksum] = '9DCBAD29D7429335C8833743F77295D8A8BF6DD35DFAC1C26208614860F7BEAA')
+  INSERT [$(DatabaseName)].[dbo].[__MigrationLog] ([migration_id], [script_checksum], [script_filename], [complete_dt], [applied_by], [deployed], [version], [package_version], [release_version])
+  VALUES                                         (CAST ('912c82cd-bd4b-519b-bb52-4faebd519829' AS UNIQUEIDENTIFIER), '9DCBAD29D7429335C8833743F77295D8A8BF6DD35DFAC1C26208614860F7BEAA', 'Programmable Objects\dbo\Views\v_Articles.sql', SYSDATETIME(), SYSTEM_USER, 1, NULL, '$(PackageVersion)', CASE '$(ReleaseVersion)' WHEN '' THEN NULL ELSE '$(ReleaseVersion)' END);
+
+GO
+SET IMPLICIT_TRANSACTIONS, NUMERIC_ROUNDABORT OFF;
+SET ANSI_NULLS, ANSI_PADDING, ANSI_WARNINGS, ARITHABORT, CONCAT_NULL_YIELDS_NULL, NOCOUNT, QUOTED_IDENTIFIER ON;
+
+GO
+IF DB_NAME() != '$(DatabaseName)'
+  USE [$(DatabaseName)];
+
+GO
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('c034329f-ca65-5250-9245-fcf157d4a4ff' AS UNIQUEIDENTIFIER) AND [script_checksum] = '3098AD3716AE091E62984818305AAEF3C3130195D22251EFB48E60E0D9CC53B4')
+  PRINT '
+
+***** EXECUTING MIGRATION "Programmable Objects\dbo\Functions\ntsh.sql", ID: {c034329f-ca65-5250-9245-fcf157d4a4ff} *****';
+
+GO
+IF EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('c034329f-ca65-5250-9245-fcf157d4a4ff' AS UNIQUEIDENTIFIER) AND [script_checksum] = '3098AD3716AE091E62984818305AAEF3C3130195D22251EFB48E60E0D9CC53B4')
+BEGIN
+  PRINT '----- Skipping "Programmable Objects\dbo\Functions\ntsh.sql", ID: {c034329f-ca65-5250-9245-fcf157d4a4ff} as there are no changes to deploy';
+  SET NOEXEC ON;
+END
+
+GO
+EXECUTE ('IF OBJECT_ID(''[dbo].[ntsh]'') IS NOT NULL
+	DROP FUNCTION [dbo].[ntsh];
+
+');
+
+GO
+SET QUOTED_IDENTIFIER ON
+
+GO
+SET ANSI_NULLS ON
+
+GO
+EXECUTE ('/* This "nothing to see here" function does nothing but slow down v_Articles */
+CREATE FUNCTION [dbo].[ntsh] (@x INT, @n INT)
+RETURNS INT
+WITH SCHEMABINDING AS
+BEGIN
+  DECLARE @retval AS INT;
+
+	DECLARE @i INT = 0
+-- Set i to 100 or greater to slow v_Articles to >100ms
+	WHILE @i < @n
+		BEGIN
+			SET @i = @i + 1;
+		END
+	SET @retval = @x;
+
+  RETURN @retval ;
+END;
+');
+
+GO
+EXECUTE ('EXEC sp_addextendedproperty N''MS_Description'', N''This used to deliberately slow down the loading of the articles view, but is now deprecated.
+The inefficient version of dbo.calculateEstimateOfReadingTime function achieves the same.'', ''SCHEMA'', N''dbo'', ''FUNCTION'', N''ntsh'', NULL, NULL
+');
+
+GO
+SET NOEXEC OFF;
+
+GO
+IF N'$(IsSqlCmdEnabled)' <> N'True'
+  SET NOEXEC ON;
+
+GO
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('c034329f-ca65-5250-9245-fcf157d4a4ff' AS UNIQUEIDENTIFIER) AND [script_checksum] = '3098AD3716AE091E62984818305AAEF3C3130195D22251EFB48E60E0D9CC53B4')
+  PRINT '***** FINISHED EXECUTING MIGRATION "Programmable Objects\dbo\Functions\ntsh.sql", ID: {c034329f-ca65-5250-9245-fcf157d4a4ff} *****
+';
+
+GO
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('c034329f-ca65-5250-9245-fcf157d4a4ff' AS UNIQUEIDENTIFIER) AND [script_checksum] = '3098AD3716AE091E62984818305AAEF3C3130195D22251EFB48E60E0D9CC53B4')
+  INSERT [$(DatabaseName)].[dbo].[__MigrationLog] ([migration_id], [script_checksum], [script_filename], [complete_dt], [applied_by], [deployed], [version], [package_version], [release_version])
+  VALUES                                         (CAST ('c034329f-ca65-5250-9245-fcf157d4a4ff' AS UNIQUEIDENTIFIER), '3098AD3716AE091E62984818305AAEF3C3130195D22251EFB48E60E0D9CC53B4', 'Programmable Objects\dbo\Functions\ntsh.sql', SYSDATETIME(), SYSTEM_USER, 1, NULL, '$(PackageVersion)', CASE '$(ReleaseVersion)' WHEN '' THEN NULL ELSE '$(ReleaseVersion)' END);
+
+GO
+SET IMPLICIT_TRANSACTIONS, NUMERIC_ROUNDABORT OFF;
+SET ANSI_NULLS, ANSI_PADDING, ANSI_WARNINGS, ARITHABORT, CONCAT_NULL_YIELDS_NULL, NOCOUNT, QUOTED_IDENTIFIER ON;
+
+GO
+IF DB_NAME() != '$(DatabaseName)'
+  USE [$(DatabaseName)];
+
+GO
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('60647e42-acb6-53c8-9852-426fc1495cea' AS UNIQUEIDENTIFIER) AND [script_checksum] = 'F82C6EB07A39FDA2E937A5D7A48FC6F0A03637463E6E96F73DCD3B4295A043FD')
+  PRINT '
+
+***** EXECUTING MIGRATION "Programmable Objects\dbo\Functions\ufnGetBlogInformation.sql", ID: {60647e42-acb6-53c8-9852-426fc1495cea} *****';
+
+GO
+IF EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('60647e42-acb6-53c8-9852-426fc1495cea' AS UNIQUEIDENTIFIER) AND [script_checksum] = 'F82C6EB07A39FDA2E937A5D7A48FC6F0A03637463E6E96F73DCD3B4295A043FD')
+BEGIN
+  PRINT '----- Skipping "Programmable Objects\dbo\Functions\ufnGetBlogInformation.sql", ID: {60647e42-acb6-53c8-9852-426fc1495cea} as there are no changes to deploy';
+  SET NOEXEC ON;
+END
+
+GO
+EXECUTE ('IF OBJECT_ID(''[dbo].[ufnGetBlogInformation]'') IS NOT NULL
+	DROP FUNCTION [dbo].[ufnGetBlogInformation];
+
+');
+
+GO
+SET QUOTED_IDENTIFIER ON
+
+GO
+SET ANSI_NULLS ON
+
+GO
+EXECUTE ('CREATE FUNCTION [dbo].[ufnGetBlogInformation] (@Contact INT)
+RETURNS @retBlogInformation TABLE (-- Columns returned by the function
+                                   [AuthorID] INT NOT NULL,
+                                   [Title] [nvarchar](50) NULL)
+AS 
+
+BEGIN
+    INSERT  INTO @retBlogInformation
+            SELECT  AuthorID, Title
+            FROM    dbo.Blogs
+            WHERE   AuthorID=@Contact
+
+    RETURN
+END
+');
+
+GO
+EXECUTE ('EXEC sp_addextendedproperty N''MS_Description'', N''This function returns a table with basic infomation pulled from the Blogs table'', ''SCHEMA'', N''dbo'', ''FUNCTION'', N''ufnGetBlogInformation'', NULL, NULL
+');
+
+GO
+SET NOEXEC OFF;
+
+GO
+IF N'$(IsSqlCmdEnabled)' <> N'True'
+  SET NOEXEC ON;
+
+GO
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('60647e42-acb6-53c8-9852-426fc1495cea' AS UNIQUEIDENTIFIER) AND [script_checksum] = 'F82C6EB07A39FDA2E937A5D7A48FC6F0A03637463E6E96F73DCD3B4295A043FD')
+  PRINT '***** FINISHED EXECUTING MIGRATION "Programmable Objects\dbo\Functions\ufnGetBlogInformation.sql", ID: {60647e42-acb6-53c8-9852-426fc1495cea} *****
+';
+
+GO
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('60647e42-acb6-53c8-9852-426fc1495cea' AS UNIQUEIDENTIFIER) AND [script_checksum] = 'F82C6EB07A39FDA2E937A5D7A48FC6F0A03637463E6E96F73DCD3B4295A043FD')
+  INSERT [$(DatabaseName)].[dbo].[__MigrationLog] ([migration_id], [script_checksum], [script_filename], [complete_dt], [applied_by], [deployed], [version], [package_version], [release_version])
+  VALUES                                         (CAST ('60647e42-acb6-53c8-9852-426fc1495cea' AS UNIQUEIDENTIFIER), 'F82C6EB07A39FDA2E937A5D7A48FC6F0A03637463E6E96F73DCD3B4295A043FD', 'Programmable Objects\dbo\Functions\ufnGetBlogInformation.sql', SYSDATETIME(), SYSTEM_USER, 1, NULL, '$(PackageVersion)', CASE '$(ReleaseVersion)' WHEN '' THEN NULL ELSE '$(ReleaseVersion)' END);
+
+GO
+SET IMPLICIT_TRANSACTIONS, NUMERIC_ROUNDABORT OFF;
+SET ANSI_NULLS, ANSI_PADDING, ANSI_WARNINGS, ARITHABORT, CONCAT_NULL_YIELDS_NULL, NOCOUNT, QUOTED_IDENTIFIER ON;
+
+GO
+IF DB_NAME() != '$(DatabaseName)'
+  USE [$(DatabaseName)];
+
+GO
 IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('9170f158-c470-5b3f-8c5e-735a4c2f9ba4' AS UNIQUEIDENTIFIER) AND [script_checksum] = '764FB99F8A6B685E4A0ABDCFCDAE6D4F66FA2E8B5AF566D33FAF956E81AA1253')
   PRINT '
 
@@ -945,6 +1843,542 @@ GO
 IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('9170f158-c470-5b3f-8c5e-735a4c2f9ba4' AS UNIQUEIDENTIFIER) AND [script_checksum] = '764FB99F8A6B685E4A0ABDCFCDAE6D4F66FA2E8B5AF566D33FAF956E81AA1253')
   INSERT [$(DatabaseName)].[dbo].[__MigrationLog] ([migration_id], [script_checksum], [script_filename], [complete_dt], [applied_by], [deployed], [version], [package_version], [release_version])
   VALUES                                         (CAST ('9170f158-c470-5b3f-8c5e-735a4c2f9ba4' AS UNIQUEIDENTIFIER), '764FB99F8A6B685E4A0ABDCFCDAE6D4F66FA2E8B5AF566D33FAF956E81AA1253', 'Programmable Objects\dbo\Stored Procedures\GetContacts.sql', SYSDATETIME(), SYSTEM_USER, 1, NULL, '$(PackageVersion)', CASE '$(ReleaseVersion)' WHEN '' THEN NULL ELSE '$(ReleaseVersion)' END);
+
+GO
+SET IMPLICIT_TRANSACTIONS, NUMERIC_ROUNDABORT OFF;
+SET ANSI_NULLS, ANSI_PADDING, ANSI_WARNINGS, ARITHABORT, CONCAT_NULL_YIELDS_NULL, NOCOUNT, QUOTED_IDENTIFIER ON;
+
+GO
+IF DB_NAME() != '$(DatabaseName)'
+  USE [$(DatabaseName)];
+
+GO
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('8450b921-a90d-56cc-9f93-ffac1ab67969' AS UNIQUEIDENTIFIER) AND [script_checksum] = '8E9DE0CA8672CD2EE0BAFDD3D8C9F188F7DB03D8BC944312A72937DDBF87CF44')
+  PRINT '
+
+***** EXECUTING MIGRATION "Programmable Objects\dbo\Stored Procedures\prcAddBlog.sql", ID: {8450b921-a90d-56cc-9f93-ffac1ab67969} *****';
+
+GO
+IF EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('8450b921-a90d-56cc-9f93-ffac1ab67969' AS UNIQUEIDENTIFIER) AND [script_checksum] = '8E9DE0CA8672CD2EE0BAFDD3D8C9F188F7DB03D8BC944312A72937DDBF87CF44')
+BEGIN
+  PRINT '----- Skipping "Programmable Objects\dbo\Stored Procedures\prcAddBlog.sql", ID: {8450b921-a90d-56cc-9f93-ffac1ab67969} as there are no changes to deploy';
+  SET NOEXEC ON;
+END
+
+GO
+EXECUTE ('IF OBJECT_ID(''[dbo].[prcAddBlog]'') IS NOT NULL
+	DROP PROCEDURE [dbo].[prcAddBlog];
+
+');
+
+GO
+SET QUOTED_IDENTIFIER ON
+
+GO
+SET ANSI_NULLS ON
+
+GO
+EXECUTE ('CREATE PROCEDURE [dbo].[prcAddBlog]
+    @Author VARCHAR(30),
+    @Title VARCHAR(142) = NULL,
+    @Article VARCHAR(MAX) = NULL
+    WITH EXECUTE AS CALLER
+AS
+BEGIN
+
+    INSERT  INTO dbo.Blogs (AuthorID, Title, Article, PublishDate)
+    VALUES  (@Author, @Title, @Article, GETDATE())
+        
+        
+END;
+--V9
+');
+
+GO
+EXECUTE ('EXEC sp_addextendedproperty N''MS_Description'', N''Procedure to add a new blog post to Simple Talk'', ''SCHEMA'', N''dbo'', ''PROCEDURE'', N''prcAddBlog'', NULL, NULL
+');
+
+GO
+SET NOEXEC OFF;
+
+GO
+IF N'$(IsSqlCmdEnabled)' <> N'True'
+  SET NOEXEC ON;
+
+GO
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('8450b921-a90d-56cc-9f93-ffac1ab67969' AS UNIQUEIDENTIFIER) AND [script_checksum] = '8E9DE0CA8672CD2EE0BAFDD3D8C9F188F7DB03D8BC944312A72937DDBF87CF44')
+  PRINT '***** FINISHED EXECUTING MIGRATION "Programmable Objects\dbo\Stored Procedures\prcAddBlog.sql", ID: {8450b921-a90d-56cc-9f93-ffac1ab67969} *****
+';
+
+GO
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('8450b921-a90d-56cc-9f93-ffac1ab67969' AS UNIQUEIDENTIFIER) AND [script_checksum] = '8E9DE0CA8672CD2EE0BAFDD3D8C9F188F7DB03D8BC944312A72937DDBF87CF44')
+  INSERT [$(DatabaseName)].[dbo].[__MigrationLog] ([migration_id], [script_checksum], [script_filename], [complete_dt], [applied_by], [deployed], [version], [package_version], [release_version])
+  VALUES                                         (CAST ('8450b921-a90d-56cc-9f93-ffac1ab67969' AS UNIQUEIDENTIFIER), '8E9DE0CA8672CD2EE0BAFDD3D8C9F188F7DB03D8BC944312A72937DDBF87CF44', 'Programmable Objects\dbo\Stored Procedures\prcAddBlog.sql', SYSDATETIME(), SYSTEM_USER, 1, NULL, '$(PackageVersion)', CASE '$(ReleaseVersion)' WHEN '' THEN NULL ELSE '$(ReleaseVersion)' END);
+
+GO
+SET IMPLICIT_TRANSACTIONS, NUMERIC_ROUNDABORT OFF;
+SET ANSI_NULLS, ANSI_PADDING, ANSI_WARNINGS, ARITHABORT, CONCAT_NULL_YIELDS_NULL, NOCOUNT, QUOTED_IDENTIFIER ON;
+
+GO
+IF DB_NAME() != '$(DatabaseName)'
+  USE [$(DatabaseName)];
+
+GO
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('517d80ee-5507-580c-b473-c552899fcf99' AS UNIQUEIDENTIFIER) AND [script_checksum] = '6014BA3B4469B0402384A9ED6AA84655796EEECE652305899D981C58B1904A6F')
+  PRINT '
+
+***** EXECUTING MIGRATION "Programmable Objects\dbo\Stored Procedures\prcAddContact.sql", ID: {517d80ee-5507-580c-b473-c552899fcf99} *****';
+
+GO
+IF EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('517d80ee-5507-580c-b473-c552899fcf99' AS UNIQUEIDENTIFIER) AND [script_checksum] = '6014BA3B4469B0402384A9ED6AA84655796EEECE652305899D981C58B1904A6F')
+BEGIN
+  PRINT '----- Skipping "Programmable Objects\dbo\Stored Procedures\prcAddContact.sql", ID: {517d80ee-5507-580c-b473-c552899fcf99} as there are no changes to deploy';
+  SET NOEXEC ON;
+END
+
+GO
+EXECUTE ('IF OBJECT_ID(''[dbo].[prcAddContact]'') IS NOT NULL
+	DROP PROCEDURE [dbo].[prcAddContact];
+
+');
+
+GO
+SET QUOTED_IDENTIFIER ON
+
+GO
+SET ANSI_NULLS ON
+
+GO
+EXECUTE ('/* 
+Sample execution: 
+EXEC [prcAddContact] ''david'', ''12345'', ''23456'', ''152 Riverside Place'', ''Cambridge'', '''', ''feedback@red-gate.com'', NULL
+*/
+
+CREATE PROCEDURE [dbo].[prcAddContact]   @ContactFullName VARCHAR(30),
+										 @PhoneWork VARCHAR(30) = NULL,
+										 @PhoneMobile VARCHAR(30) = NULL,
+										 @Address1 VARCHAR(30) = NULL,
+										 @Address2 VARCHAR(30) = NULL,
+										 @Address3 VARCHAR(30) = NULL,
+										 @Email VARCHAR(30) = NULL,
+										 @JoiningDate DATETIME = NULL
+
+WITH EXECUTE AS CALLER
+AS
+BEGIN
+
+INSERT INTO dbo.Contacts
+        ( ContactFullName ,
+          PhoneWork ,
+          PhoneMobile ,
+          Address1 ,
+          Address2 ,
+          Address3 ,
+          JoiningDate ,
+          ModifiedDate ,
+          Email
+        )
+VALUES  ( @ContactFullName , -- ContactFullName - nvarchar(100)
+         @PhoneWork , -- PhoneWork - nvarchar(25)
+         @PhoneMobile , -- PhoneMobile - nvarchar(25)
+         @Address1 , -- Address1 - nvarchar(128)
+         @Address2 , -- Address2 - nvarchar(128)
+         @Address3 , -- Address3 - nvarchar(128)
+          @JoiningDate , -- JoiningDate - datetime, e.g. ''2012-01-17 11:42:45'' 
+          GETDATE() , -- ModifiedDate - datetime
+          @Email  -- Email - nvarchar(256)
+        )
+        
+        
+        END;
+');
+
+GO
+EXECUTE ('EXEC sp_addextendedproperty N''MS_Description'', N''Add a new contact to the Simple Talk community'', ''SCHEMA'', N''dbo'', ''PROCEDURE'', N''prcAddContact'', NULL, NULL
+');
+
+GO
+SET NOEXEC OFF;
+
+GO
+IF N'$(IsSqlCmdEnabled)' <> N'True'
+  SET NOEXEC ON;
+
+GO
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('517d80ee-5507-580c-b473-c552899fcf99' AS UNIQUEIDENTIFIER) AND [script_checksum] = '6014BA3B4469B0402384A9ED6AA84655796EEECE652305899D981C58B1904A6F')
+  PRINT '***** FINISHED EXECUTING MIGRATION "Programmable Objects\dbo\Stored Procedures\prcAddContact.sql", ID: {517d80ee-5507-580c-b473-c552899fcf99} *****
+';
+
+GO
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('517d80ee-5507-580c-b473-c552899fcf99' AS UNIQUEIDENTIFIER) AND [script_checksum] = '6014BA3B4469B0402384A9ED6AA84655796EEECE652305899D981C58B1904A6F')
+  INSERT [$(DatabaseName)].[dbo].[__MigrationLog] ([migration_id], [script_checksum], [script_filename], [complete_dt], [applied_by], [deployed], [version], [package_version], [release_version])
+  VALUES                                         (CAST ('517d80ee-5507-580c-b473-c552899fcf99' AS UNIQUEIDENTIFIER), '6014BA3B4469B0402384A9ED6AA84655796EEECE652305899D981C58B1904A6F', 'Programmable Objects\dbo\Stored Procedures\prcAddContact.sql', SYSDATETIME(), SYSTEM_USER, 1, NULL, '$(PackageVersion)', CASE '$(ReleaseVersion)' WHEN '' THEN NULL ELSE '$(ReleaseVersion)' END);
+
+GO
+SET IMPLICIT_TRANSACTIONS, NUMERIC_ROUNDABORT OFF;
+SET ANSI_NULLS, ANSI_PADDING, ANSI_WARNINGS, ARITHABORT, CONCAT_NULL_YIELDS_NULL, NOCOUNT, QUOTED_IDENTIFIER ON;
+
+GO
+IF DB_NAME() != '$(DatabaseName)'
+  USE [$(DatabaseName)];
+
+GO
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('31b3534b-f7a4-5982-9fc9-e890f670bdb4' AS UNIQUEIDENTIFIER) AND [script_checksum] = '2EE116B25C28773C63E3339B73B6085F3D97688442AD7FA190129F73CB868B9A')
+  PRINT '
+
+***** EXECUTING MIGRATION "Programmable Objects\dbo\Stored Procedures\prcGetContacts.sql", ID: {31b3534b-f7a4-5982-9fc9-e890f670bdb4} *****';
+
+GO
+IF EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('31b3534b-f7a4-5982-9fc9-e890f670bdb4' AS UNIQUEIDENTIFIER) AND [script_checksum] = '2EE116B25C28773C63E3339B73B6085F3D97688442AD7FA190129F73CB868B9A')
+BEGIN
+  PRINT '----- Skipping "Programmable Objects\dbo\Stored Procedures\prcGetContacts.sql", ID: {31b3534b-f7a4-5982-9fc9-e890f670bdb4} as there are no changes to deploy';
+  SET NOEXEC ON;
+END
+
+GO
+EXECUTE ('IF OBJECT_ID(''[dbo].[prcGetContacts]'') IS NOT NULL
+	DROP PROCEDURE [dbo].[prcGetContacts];
+
+');
+
+GO
+SET QUOTED_IDENTIFIER ON
+
+GO
+SET ANSI_NULLS ON
+
+GO
+EXECUTE ('CREATE PROCEDURE [dbo].[prcGetContacts]
+AS
+    SELECT  *
+    FROM    Contacts
+
+	-- v7
+');
+
+GO
+SET NOEXEC OFF;
+
+GO
+IF N'$(IsSqlCmdEnabled)' <> N'True'
+  SET NOEXEC ON;
+
+GO
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('31b3534b-f7a4-5982-9fc9-e890f670bdb4' AS UNIQUEIDENTIFIER) AND [script_checksum] = '2EE116B25C28773C63E3339B73B6085F3D97688442AD7FA190129F73CB868B9A')
+  PRINT '***** FINISHED EXECUTING MIGRATION "Programmable Objects\dbo\Stored Procedures\prcGetContacts.sql", ID: {31b3534b-f7a4-5982-9fc9-e890f670bdb4} *****
+';
+
+GO
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('31b3534b-f7a4-5982-9fc9-e890f670bdb4' AS UNIQUEIDENTIFIER) AND [script_checksum] = '2EE116B25C28773C63E3339B73B6085F3D97688442AD7FA190129F73CB868B9A')
+  INSERT [$(DatabaseName)].[dbo].[__MigrationLog] ([migration_id], [script_checksum], [script_filename], [complete_dt], [applied_by], [deployed], [version], [package_version], [release_version])
+  VALUES                                         (CAST ('31b3534b-f7a4-5982-9fc9-e890f670bdb4' AS UNIQUEIDENTIFIER), '2EE116B25C28773C63E3339B73B6085F3D97688442AD7FA190129F73CB868B9A', 'Programmable Objects\dbo\Stored Procedures\prcGetContacts.sql', SYSDATETIME(), SYSTEM_USER, 1, NULL, '$(PackageVersion)', CASE '$(ReleaseVersion)' WHEN '' THEN NULL ELSE '$(ReleaseVersion)' END);
+
+GO
+SET IMPLICIT_TRANSACTIONS, NUMERIC_ROUNDABORT OFF;
+SET ANSI_NULLS, ANSI_PADDING, ANSI_WARNINGS, ARITHABORT, CONCAT_NULL_YIELDS_NULL, NOCOUNT, QUOTED_IDENTIFIER ON;
+
+GO
+IF DB_NAME() != '$(DatabaseName)'
+  USE [$(DatabaseName)];
+
+GO
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('4cc7b5d2-26a3-5a66-bac9-24e4f6dc467f' AS UNIQUEIDENTIFIER) AND [script_checksum] = 'E0ECE1BA748E1CFFBE869BA14AA70B0116E389348FBC1E7DF44CAF322030E998')
+  PRINT '
+
+***** EXECUTING MIGRATION "Programmable Objects\dbo\Stored Procedures\prcGetRSSFeeds.sql", ID: {4cc7b5d2-26a3-5a66-bac9-24e4f6dc467f} *****';
+
+GO
+IF EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('4cc7b5d2-26a3-5a66-bac9-24e4f6dc467f' AS UNIQUEIDENTIFIER) AND [script_checksum] = 'E0ECE1BA748E1CFFBE869BA14AA70B0116E389348FBC1E7DF44CAF322030E998')
+BEGIN
+  PRINT '----- Skipping "Programmable Objects\dbo\Stored Procedures\prcGetRSSFeeds.sql", ID: {4cc7b5d2-26a3-5a66-bac9-24e4f6dc467f} as there are no changes to deploy';
+  SET NOEXEC ON;
+END
+
+GO
+EXECUTE ('IF OBJECT_ID(''[dbo].[prcGetRSSFeeds]'') IS NOT NULL
+	DROP PROCEDURE [dbo].[prcGetRSSFeeds];
+
+');
+
+GO
+SET QUOTED_IDENTIFIER ON
+
+GO
+SET ANSI_NULLS ON
+
+GO
+EXECUTE ('CREATE PROCEDURE [dbo].[prcGetRSSFeeds]
+AS
+    SELECT  RSSFeedID,
+            FeedName,
+            Checked
+    FROM    dbo.RSSFeeds
+
+	-- v4
+');
+
+GO
+SET NOEXEC OFF;
+
+GO
+IF N'$(IsSqlCmdEnabled)' <> N'True'
+  SET NOEXEC ON;
+
+GO
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('4cc7b5d2-26a3-5a66-bac9-24e4f6dc467f' AS UNIQUEIDENTIFIER) AND [script_checksum] = 'E0ECE1BA748E1CFFBE869BA14AA70B0116E389348FBC1E7DF44CAF322030E998')
+  PRINT '***** FINISHED EXECUTING MIGRATION "Programmable Objects\dbo\Stored Procedures\prcGetRSSFeeds.sql", ID: {4cc7b5d2-26a3-5a66-bac9-24e4f6dc467f} *****
+';
+
+GO
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('4cc7b5d2-26a3-5a66-bac9-24e4f6dc467f' AS UNIQUEIDENTIFIER) AND [script_checksum] = 'E0ECE1BA748E1CFFBE869BA14AA70B0116E389348FBC1E7DF44CAF322030E998')
+  INSERT [$(DatabaseName)].[dbo].[__MigrationLog] ([migration_id], [script_checksum], [script_filename], [complete_dt], [applied_by], [deployed], [version], [package_version], [release_version])
+  VALUES                                         (CAST ('4cc7b5d2-26a3-5a66-bac9-24e4f6dc467f' AS UNIQUEIDENTIFIER), 'E0ECE1BA748E1CFFBE869BA14AA70B0116E389348FBC1E7DF44CAF322030E998', 'Programmable Objects\dbo\Stored Procedures\prcGetRSSFeeds.sql', SYSDATETIME(), SYSTEM_USER, 1, NULL, '$(PackageVersion)', CASE '$(ReleaseVersion)' WHEN '' THEN NULL ELSE '$(ReleaseVersion)' END);
+
+GO
+SET IMPLICIT_TRANSACTIONS, NUMERIC_ROUNDABORT OFF;
+SET ANSI_NULLS, ANSI_PADDING, ANSI_WARNINGS, ARITHABORT, CONCAT_NULL_YIELDS_NULL, NOCOUNT, QUOTED_IDENTIFIER ON;
+
+GO
+IF DB_NAME() != '$(DatabaseName)'
+  USE [$(DatabaseName)];
+
+GO
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('73b2afe0-8cf7-5ca6-9ad7-318fdaf4b859' AS UNIQUEIDENTIFIER) AND [script_checksum] = '9965CF21C6846B81652EA5F008713B9939D23635961BD74FFBD9DAD0D6C174C0')
+  PRINT '
+
+***** EXECUTING MIGRATION "Programmable Objects\dbo\Stored Procedures\prcProcedureWithDynamicSQL.sql", ID: {73b2afe0-8cf7-5ca6-9ad7-318fdaf4b859} *****';
+
+GO
+IF EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('73b2afe0-8cf7-5ca6-9ad7-318fdaf4b859' AS UNIQUEIDENTIFIER) AND [script_checksum] = '9965CF21C6846B81652EA5F008713B9939D23635961BD74FFBD9DAD0D6C174C0')
+BEGIN
+  PRINT '----- Skipping "Programmable Objects\dbo\Stored Procedures\prcProcedureWithDynamicSQL.sql", ID: {73b2afe0-8cf7-5ca6-9ad7-318fdaf4b859} as there are no changes to deploy';
+  SET NOEXEC ON;
+END
+
+GO
+EXECUTE ('IF OBJECT_ID(''[dbo].[prcProcedureWithDynamicSQL]'') IS NOT NULL
+	DROP PROCEDURE [dbo].[prcProcedureWithDynamicSQL];
+
+');
+
+GO
+SET QUOTED_IDENTIFIER ON
+
+GO
+SET ANSI_NULLS ON
+
+GO
+EXECUTE ('/* This is a procedure that simply contains dynamic SQL just to demonstrate that dependencies aren''t picked up. 
+Use SQL Search to find these. */
+CREATE PROCEDURE [dbo].[prcProcedureWithDynamicSQL]
+AS 
+    BEGIN
+
+        EXECUTE  (''SELECT count(*) FROM Contacts WHERE ContactFullName LIKE ''''D%'''''')
+    END
+');
+
+GO
+EXECUTE ('EXEC sp_addextendedproperty N''MS_Description'', N''This serves no purpose except to demonstrate that SQL Search can find object names referenced in dynamic SQL, whereas other methods and tools can''''t.'', ''SCHEMA'', N''dbo'', ''PROCEDURE'', N''prcProcedureWithDynamicSQL'', NULL, NULL
+');
+
+GO
+SET NOEXEC OFF;
+
+GO
+IF N'$(IsSqlCmdEnabled)' <> N'True'
+  SET NOEXEC ON;
+
+GO
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('73b2afe0-8cf7-5ca6-9ad7-318fdaf4b859' AS UNIQUEIDENTIFIER) AND [script_checksum] = '9965CF21C6846B81652EA5F008713B9939D23635961BD74FFBD9DAD0D6C174C0')
+  PRINT '***** FINISHED EXECUTING MIGRATION "Programmable Objects\dbo\Stored Procedures\prcProcedureWithDynamicSQL.sql", ID: {73b2afe0-8cf7-5ca6-9ad7-318fdaf4b859} *****
+';
+
+GO
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('73b2afe0-8cf7-5ca6-9ad7-318fdaf4b859' AS UNIQUEIDENTIFIER) AND [script_checksum] = '9965CF21C6846B81652EA5F008713B9939D23635961BD74FFBD9DAD0D6C174C0')
+  INSERT [$(DatabaseName)].[dbo].[__MigrationLog] ([migration_id], [script_checksum], [script_filename], [complete_dt], [applied_by], [deployed], [version], [package_version], [release_version])
+  VALUES                                         (CAST ('73b2afe0-8cf7-5ca6-9ad7-318fdaf4b859' AS UNIQUEIDENTIFIER), '9965CF21C6846B81652EA5F008713B9939D23635961BD74FFBD9DAD0D6C174C0', 'Programmable Objects\dbo\Stored Procedures\prcProcedureWithDynamicSQL.sql', SYSDATETIME(), SYSTEM_USER, 1, NULL, '$(PackageVersion)', CASE '$(ReleaseVersion)' WHEN '' THEN NULL ELSE '$(ReleaseVersion)' END);
+
+GO
+SET IMPLICIT_TRANSACTIONS, NUMERIC_ROUNDABORT OFF;
+SET ANSI_NULLS, ANSI_PADDING, ANSI_WARNINGS, ARITHABORT, CONCAT_NULL_YIELDS_NULL, NOCOUNT, QUOTED_IDENTIFIER ON;
+
+GO
+IF DB_NAME() != '$(DatabaseName)'
+  USE [$(DatabaseName)];
+
+GO
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('ca6e2638-75d9-5231-b447-a28752cb2ea4' AS UNIQUEIDENTIFIER) AND [script_checksum] = '31499F1CB7663D14FC21015FD0D8AAFBA734779C74DB590A92ADFE0E6866F987')
+  PRINT '
+
+***** EXECUTING MIGRATION "Programmable Objects\dbo\Views\ArticlesPriceList.sql", ID: {ca6e2638-75d9-5231-b447-a28752cb2ea4} *****';
+
+GO
+IF EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('ca6e2638-75d9-5231-b447-a28752cb2ea4' AS UNIQUEIDENTIFIER) AND [script_checksum] = '31499F1CB7663D14FC21015FD0D8AAFBA734779C74DB590A92ADFE0E6866F987')
+BEGIN
+  PRINT '----- Skipping "Programmable Objects\dbo\Views\ArticlesPriceList.sql", ID: {ca6e2638-75d9-5231-b447-a28752cb2ea4} as there are no changes to deploy';
+  SET NOEXEC ON;
+END
+
+GO
+EXECUTE ('IF OBJECT_ID(''[dbo].[ArticlesPriceList]'') IS NOT NULL
+	DROP VIEW [dbo].[ArticlesPriceList];
+
+');
+
+GO
+SET QUOTED_IDENTIFIER ON
+
+GO
+SET ANSI_NULLS ON
+
+GO
+EXECUTE ('-- Create indexed view
+CREATE VIEW [dbo].[ArticlesPriceList]
+AS
+SELECT     a.ArticlesID, a.Description AS Articles, ap.Price
+FROM       dbo.Articles AS a LEFT JOIN
+           dbo.ArticlePrices AS ap ON a.ArticlesID = ap.ArticlePricesID
+');
+
+GO
+SET NOEXEC OFF;
+
+GO
+IF N'$(IsSqlCmdEnabled)' <> N'True'
+  SET NOEXEC ON;
+
+GO
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('ca6e2638-75d9-5231-b447-a28752cb2ea4' AS UNIQUEIDENTIFIER) AND [script_checksum] = '31499F1CB7663D14FC21015FD0D8AAFBA734779C74DB590A92ADFE0E6866F987')
+  PRINT '***** FINISHED EXECUTING MIGRATION "Programmable Objects\dbo\Views\ArticlesPriceList.sql", ID: {ca6e2638-75d9-5231-b447-a28752cb2ea4} *****
+';
+
+GO
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('ca6e2638-75d9-5231-b447-a28752cb2ea4' AS UNIQUEIDENTIFIER) AND [script_checksum] = '31499F1CB7663D14FC21015FD0D8AAFBA734779C74DB590A92ADFE0E6866F987')
+  INSERT [$(DatabaseName)].[dbo].[__MigrationLog] ([migration_id], [script_checksum], [script_filename], [complete_dt], [applied_by], [deployed], [version], [package_version], [release_version])
+  VALUES                                         (CAST ('ca6e2638-75d9-5231-b447-a28752cb2ea4' AS UNIQUEIDENTIFIER), '31499F1CB7663D14FC21015FD0D8AAFBA734779C74DB590A92ADFE0E6866F987', 'Programmable Objects\dbo\Views\ArticlesPriceList.sql', SYSDATETIME(), SYSTEM_USER, 1, NULL, '$(PackageVersion)', CASE '$(ReleaseVersion)' WHEN '' THEN NULL ELSE '$(ReleaseVersion)' END);
+
+GO
+SET IMPLICIT_TRANSACTIONS, NUMERIC_ROUNDABORT OFF;
+SET ANSI_NULLS, ANSI_PADDING, ANSI_WARNINGS, ARITHABORT, CONCAT_NULL_YIELDS_NULL, NOCOUNT, QUOTED_IDENTIFIER ON;
+
+GO
+IF DB_NAME() != '$(DatabaseName)'
+  USE [$(DatabaseName)];
+
+GO
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('aab5f5fe-6c5f-5b1c-bd80-5046da2cb829' AS UNIQUEIDENTIFIER) AND [script_checksum] = 'BFE6DA35A9518D1E80708A4D52902DFA9EB9BC0509C49B6EECE019D2294CDF17')
+  PRINT '
+
+***** EXECUTING MIGRATION "Programmable Objects\dbo\Views\newview.sql", ID: {aab5f5fe-6c5f-5b1c-bd80-5046da2cb829} *****';
+
+GO
+IF EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('aab5f5fe-6c5f-5b1c-bd80-5046da2cb829' AS UNIQUEIDENTIFIER) AND [script_checksum] = 'BFE6DA35A9518D1E80708A4D52902DFA9EB9BC0509C49B6EECE019D2294CDF17')
+BEGIN
+  PRINT '----- Skipping "Programmable Objects\dbo\Views\newview.sql", ID: {aab5f5fe-6c5f-5b1c-bd80-5046da2cb829} as there are no changes to deploy';
+  SET NOEXEC ON;
+END
+
+GO
+EXECUTE ('IF OBJECT_ID(''[dbo].[newview]'') IS NOT NULL
+	DROP VIEW [dbo].[newview];
+
+');
+
+GO
+SET QUOTED_IDENTIFIER ON
+
+GO
+SET ANSI_NULLS ON
+
+GO
+EXECUTE ('--Author: RED-GATE\Anderson.Rangel
+--Date: 27/08/2020
+CREATE VIEW [dbo].[newview]
+--WITH ENCRYPTION, SCHEMABINDING, VIEW_METADATA
+AS
+    SELECT * FROM dbo.ArticlePrices AS AP
+-- WITH CHECK OPTION
+');
+
+GO
+SET NOEXEC OFF;
+
+GO
+IF N'$(IsSqlCmdEnabled)' <> N'True'
+  SET NOEXEC ON;
+
+GO
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('aab5f5fe-6c5f-5b1c-bd80-5046da2cb829' AS UNIQUEIDENTIFIER) AND [script_checksum] = 'BFE6DA35A9518D1E80708A4D52902DFA9EB9BC0509C49B6EECE019D2294CDF17')
+  PRINT '***** FINISHED EXECUTING MIGRATION "Programmable Objects\dbo\Views\newview.sql", ID: {aab5f5fe-6c5f-5b1c-bd80-5046da2cb829} *****
+';
+
+GO
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('aab5f5fe-6c5f-5b1c-bd80-5046da2cb829' AS UNIQUEIDENTIFIER) AND [script_checksum] = 'BFE6DA35A9518D1E80708A4D52902DFA9EB9BC0509C49B6EECE019D2294CDF17')
+  INSERT [$(DatabaseName)].[dbo].[__MigrationLog] ([migration_id], [script_checksum], [script_filename], [complete_dt], [applied_by], [deployed], [version], [package_version], [release_version])
+  VALUES                                         (CAST ('aab5f5fe-6c5f-5b1c-bd80-5046da2cb829' AS UNIQUEIDENTIFIER), 'BFE6DA35A9518D1E80708A4D52902DFA9EB9BC0509C49B6EECE019D2294CDF17', 'Programmable Objects\dbo\Views\newview.sql', SYSDATETIME(), SYSTEM_USER, 1, NULL, '$(PackageVersion)', CASE '$(ReleaseVersion)' WHEN '' THEN NULL ELSE '$(ReleaseVersion)' END);
+
+GO
+SET IMPLICIT_TRANSACTIONS, NUMERIC_ROUNDABORT OFF;
+SET ANSI_NULLS, ANSI_PADDING, ANSI_WARNINGS, ARITHABORT, CONCAT_NULL_YIELDS_NULL, NOCOUNT, QUOTED_IDENTIFIER ON;
+
+GO
+IF DB_NAME() != '$(DatabaseName)'
+  USE [$(DatabaseName)];
+
+GO
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('189804f6-32e3-5a46-b331-82ec8e10a286' AS UNIQUEIDENTIFIER) AND [script_checksum] = 'CAB28E99DA7C8BA39A6F38A1408E14B041939C4FE4DA72A971F3A3FCDE52F121')
+  PRINT '
+
+***** EXECUTING MIGRATION "Programmable Objects\dbo\Views\v_Blogs.sql", ID: {189804f6-32e3-5a46-b331-82ec8e10a286} *****';
+
+GO
+IF EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('189804f6-32e3-5a46-b331-82ec8e10a286' AS UNIQUEIDENTIFIER) AND [script_checksum] = 'CAB28E99DA7C8BA39A6F38A1408E14B041939C4FE4DA72A971F3A3FCDE52F121')
+BEGIN
+  PRINT '----- Skipping "Programmable Objects\dbo\Views\v_Blogs.sql", ID: {189804f6-32e3-5a46-b331-82ec8e10a286} as there are no changes to deploy';
+  SET NOEXEC ON;
+END
+
+GO
+EXECUTE ('IF OBJECT_ID(''[dbo].[v_Blogs]'') IS NOT NULL
+	DROP VIEW [dbo].[v_Blogs];
+
+');
+
+GO
+SET QUOTED_IDENTIFIER ON
+
+GO
+SET ANSI_NULLS ON
+
+GO
+EXECUTE ('CREATE VIEW [dbo].[v_Blogs]
+AS
+SELECT  c.ContactFullName, Title, Article, PublishDate
+FROM    Blogs
+        INNER JOIN dbo.Contacts c ON c.ContactsID = dbo.Blogs.AuthorID
+');
+
+GO
+EXECUTE ('EXEC sp_addextendedproperty N''MS_Description'', N''View to pull down list of blogs'', ''SCHEMA'', N''dbo'', ''VIEW'', N''v_Blogs'', NULL, NULL
+');
+
+GO
+SET NOEXEC OFF;
+
+GO
+IF N'$(IsSqlCmdEnabled)' <> N'True'
+  SET NOEXEC ON;
+
+GO
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('189804f6-32e3-5a46-b331-82ec8e10a286' AS UNIQUEIDENTIFIER) AND [script_checksum] = 'CAB28E99DA7C8BA39A6F38A1408E14B041939C4FE4DA72A971F3A3FCDE52F121')
+  PRINT '***** FINISHED EXECUTING MIGRATION "Programmable Objects\dbo\Views\v_Blogs.sql", ID: {189804f6-32e3-5a46-b331-82ec8e10a286} *****
+';
+
+GO
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('189804f6-32e3-5a46-b331-82ec8e10a286' AS UNIQUEIDENTIFIER) AND [script_checksum] = 'CAB28E99DA7C8BA39A6F38A1408E14B041939C4FE4DA72A971F3A3FCDE52F121')
+  INSERT [$(DatabaseName)].[dbo].[__MigrationLog] ([migration_id], [script_checksum], [script_filename], [complete_dt], [applied_by], [deployed], [version], [package_version], [release_version])
+  VALUES                                         (CAST ('189804f6-32e3-5a46-b331-82ec8e10a286' AS UNIQUEIDENTIFIER), 'CAB28E99DA7C8BA39A6F38A1408E14B041939C4FE4DA72A971F3A3FCDE52F121', 'Programmable Objects\dbo\Views\v_Blogs.sql', SYSDATETIME(), SYSTEM_USER, 1, NULL, '$(PackageVersion)', CASE '$(ReleaseVersion)' WHEN '' THEN NULL ELSE '$(ReleaseVersion)' END);
 
 GO
 PRINT '# Committing transaction';

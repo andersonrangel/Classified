@@ -30,5 +30,5 @@ AS
             DC.customer_zipcode,
             DC.credit_card_type_id,
             DC.customer_credit_card_number FROM dbo.DM_CUSTOMER AS DC
-			--v3
+			--v4
 GO
