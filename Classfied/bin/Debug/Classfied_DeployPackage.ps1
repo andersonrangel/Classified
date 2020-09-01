@@ -1,6 +1,6 @@
 $SqlCmdVariables = @{
 }
-$TargetDatabase = 'Classified-3Dev'
+$TargetDatabase = 'Classified_FeatureA'
 $OctoOptionDeployToLocalInstance = ''
 $SkipVariableValidation = ''
 $__isAzurePlatformTarget = 'False'

@@ -2,6 +2,6 @@
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TargetDatabase>Classified-3Dev</TargetDatabase>
-    <TargetConnectionString>Data Source=.;Initial Catalog=Classified-3Dev;Integrated Security=True;Pooling=False;Encrypt=False;Trust Server Certificate=True;Multi Subnet Failover=False</TargetConnectionString>
+    <TargetConnectionString>Data Source=SLS-LT-ANDERSON.red-gate.com\;Initial Catalog=Classified-3Dev;Integrated Security=True;Pooling=False;Encrypt=False;Trust Server Certificate=True;Multi Subnet Failover=False</TargetConnectionString>
   </PropertyGroup>
 </Project>

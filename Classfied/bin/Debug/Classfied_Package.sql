@@ -1,5 +1,5 @@
 ﻿/*
-    Generated date:     2020-09-01T10:04:31Z
+    Generated date:     2020-09-01T10:19:03Z
     Generated on:       SLS-LT-ANDERSON
     Package version:    
     Migration version:  (n/a)
@@ -828,6 +828,72 @@ GO
 IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('9170f158-c470-5b3f-8c5e-735a4c2f9ba4' AS UNIQUEIDENTIFIER) AND [script_checksum] = 'A0F9D402ADFF2DDEB0561D839E5CE34A1B620EC12348BA0FC277A78A429371D9')
   INSERT [$(DatabaseName)].[dbo].[__MigrationLog] ([migration_id], [script_checksum], [script_filename], [complete_dt], [applied_by], [deployed], [version], [package_version], [release_version])
   VALUES                                         (CAST ('9170f158-c470-5b3f-8c5e-735a4c2f9ba4' AS UNIQUEIDENTIFIER), 'A0F9D402ADFF2DDEB0561D839E5CE34A1B620EC12348BA0FC277A78A429371D9', 'Programmable Objects\dbo\Stored Procedures\GetContacts.sql', SYSDATETIME(), SYSTEM_USER, 1, NULL, '$(PackageVersion)', CASE '$(ReleaseVersion)' WHEN '' THEN NULL ELSE '$(ReleaseVersion)' END);
+
+GO
+SET IMPLICIT_TRANSACTIONS, NUMERIC_ROUNDABORT OFF;
+SET ANSI_NULLS, ANSI_PADDING, ANSI_WARNINGS, ARITHABORT, CONCAT_NULL_YIELDS_NULL, NOCOUNT, QUOTED_IDENTIFIER ON;
+
+GO
+IF DB_NAME() != '$(DatabaseName)'
+  USE [$(DatabaseName)];
+
+GO
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('22695655-5308-5cb6-9aad-81c1075e1b67' AS UNIQUEIDENTIFIER) AND [script_checksum] = 'C57CEC0CA24135E493B263337A032EA3A3E85B0D993CDFDCB0A98A6C52DA7579')
+  PRINT '
+
+***** EXECUTING MIGRATION "Programmable Objects\dbo\Stored Procedures\newproc.sql", ID: {22695655-5308-5cb6-9aad-81c1075e1b67} *****';
+
+GO
+IF EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('22695655-5308-5cb6-9aad-81c1075e1b67' AS UNIQUEIDENTIFIER) AND [script_checksum] = 'C57CEC0CA24135E493B263337A032EA3A3E85B0D993CDFDCB0A98A6C52DA7579')
+BEGIN
+  PRINT '----- Skipping "Programmable Objects\dbo\Stored Procedures\newproc.sql", ID: {22695655-5308-5cb6-9aad-81c1075e1b67} as there are no changes to deploy';
+  SET NOEXEC ON;
+END
+
+GO
+EXECUTE ('IF OBJECT_ID(''[dbo].[newproc]'') IS NOT NULL
+	DROP PROCEDURE [dbo].[newproc];
+
+');
+
+GO
+SET QUOTED_IDENTIFIER ON
+
+GO
+SET ANSI_NULLS ON
+
+GO
+EXECUTE ('--SET QUOTED_IDENTIFIER ON|OFF
+--SET ANSI_NULLS ON|OFF
+--GO
+--Author: RED-GATE\Anderson.Rangel
+--Date: 1/09/2020
+
+CREATE PROCEDURE [dbo].[newproc]
+    @parameter_name AS INT
+-- WITH ENCRYPTION, RECOMPILE, EXECUTE AS CALLER|SELF|OWNER| ''user_name''
+AS
+begin
+    SELECT * FROM dbo.DM_CREDIT_CARD_TYPE AS DCCT
+end
+');
+
+GO
+SET NOEXEC OFF;
+
+GO
+IF N'$(IsSqlCmdEnabled)' <> N'True'
+  SET NOEXEC ON;
+
+GO
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('22695655-5308-5cb6-9aad-81c1075e1b67' AS UNIQUEIDENTIFIER) AND [script_checksum] = 'C57CEC0CA24135E493B263337A032EA3A3E85B0D993CDFDCB0A98A6C52DA7579')
+  PRINT '***** FINISHED EXECUTING MIGRATION "Programmable Objects\dbo\Stored Procedures\newproc.sql", ID: {22695655-5308-5cb6-9aad-81c1075e1b67} *****
+';
+
+GO
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('22695655-5308-5cb6-9aad-81c1075e1b67' AS UNIQUEIDENTIFIER) AND [script_checksum] = 'C57CEC0CA24135E493B263337A032EA3A3E85B0D993CDFDCB0A98A6C52DA7579')
+  INSERT [$(DatabaseName)].[dbo].[__MigrationLog] ([migration_id], [script_checksum], [script_filename], [complete_dt], [applied_by], [deployed], [version], [package_version], [release_version])
+  VALUES                                         (CAST ('22695655-5308-5cb6-9aad-81c1075e1b67' AS UNIQUEIDENTIFIER), 'C57CEC0CA24135E493B263337A032EA3A3E85B0D993CDFDCB0A98A6C52DA7579', 'Programmable Objects\dbo\Stored Procedures\newproc.sql', SYSDATETIME(), SYSTEM_USER, 1, NULL, '$(PackageVersion)', CASE '$(ReleaseVersion)' WHEN '' THEN NULL ELSE '$(ReleaseVersion)' END);
 
 GO
 PRINT '# Committing transaction';
