@@ -1,5 +1,5 @@
 ﻿/*
-    Generated date:     2020-09-02T09:16:47Z
+    Generated date:     2020-09-02T09:30:44Z
     Generated on:       SLS-LT-ANDERSON
     Package version:    
     Migration version:  (n/a)
@@ -1463,6 +1463,54 @@ GO
 IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('a1a64e2d-f9fc-44e8-8776-a28802659c9f' AS UNIQUEIDENTIFIER))
   INSERT [$(DatabaseName)].[dbo].[__MigrationLog] ([migration_id], [script_checksum], [script_filename], [complete_dt], [applied_by], [deployed], [version], [package_version], [release_version])
   VALUES                                         (CAST ('a1a64e2d-f9fc-44e8-8776-a28802659c9f' AS UNIQUEIDENTIFIER), 'CDAD9C05B7DE2C3DE321686347C80FD8D768E0B163254A6C9ACBE18425851833', 'Migrations\1.1.0-Changes\004_20200901-1400_Anderson.Rangel.sql', SYSDATETIME(), SYSTEM_USER, 1, NULL, '$(PackageVersion)', CASE '$(ReleaseVersion)' WHEN '' THEN NULL ELSE '$(ReleaseVersion)' END);
+
+GO
+SET IMPLICIT_TRANSACTIONS, NUMERIC_ROUNDABORT OFF;
+SET ANSI_NULLS, ANSI_PADDING, ANSI_WARNINGS, ARITHABORT, CONCAT_NULL_YIELDS_NULL, NOCOUNT, QUOTED_IDENTIFIER ON;
+
+GO
+IF DB_NAME() != '$(DatabaseName)'
+  USE [$(DatabaseName)];
+
+GO
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('9408f93b-d09c-4b76-8930-b2f401d23411' AS UNIQUEIDENTIFIER))
+  PRINT '
+
+***** EXECUTING MIGRATION "Migrations\1.1.0-Changes\005_20200902-0925_Anderson.Rangel.sql", ID: {9408f93b-d09c-4b76-8930-b2f401d23411} *****';
+
+GO
+IF EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('9408f93b-d09c-4b76-8930-b2f401d23411' AS UNIQUEIDENTIFIER))
+BEGIN
+  PRINT '----- Skipping "Migrations\1.1.0-Changes\005_20200902-0925_Anderson.Rangel.sql", ID: {9408f93b-d09c-4b76-8930-b2f401d23411} as it has already been run on this database';
+  SET NOEXEC ON;
+END
+
+GO
+EXECUTE ('
+PRINT N''Dropping [dbo].[oldproc]''
+');
+
+GO
+EXECUTE ('IF OBJECT_ID(N''[dbo].[oldproc]'', ''P'') IS NOT NULL
+DROP PROCEDURE [dbo].[oldproc]
+');
+
+GO
+SET NOEXEC OFF;
+
+GO
+IF N'$(IsSqlCmdEnabled)' <> N'True'
+  SET NOEXEC ON;
+
+GO
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('9408f93b-d09c-4b76-8930-b2f401d23411' AS UNIQUEIDENTIFIER))
+  PRINT '***** FINISHED EXECUTING MIGRATION "Migrations\1.1.0-Changes\005_20200902-0925_Anderson.Rangel.sql", ID: {9408f93b-d09c-4b76-8930-b2f401d23411} *****
+';
+
+GO
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('9408f93b-d09c-4b76-8930-b2f401d23411' AS UNIQUEIDENTIFIER))
+  INSERT [$(DatabaseName)].[dbo].[__MigrationLog] ([migration_id], [script_checksum], [script_filename], [complete_dt], [applied_by], [deployed], [version], [package_version], [release_version])
+  VALUES                                         (CAST ('9408f93b-d09c-4b76-8930-b2f401d23411' AS UNIQUEIDENTIFIER), 'CD3A6D293C29D55AE4F1452AD9C3C5DAF7EC52FEF29E5FA079CC4EAEA546E84F', 'Migrations\1.1.0-Changes\005_20200902-0925_Anderson.Rangel.sql', SYSDATETIME(), SYSTEM_USER, 1, NULL, '$(PackageVersion)', CASE '$(ReleaseVersion)' WHEN '' THEN NULL ELSE '$(ReleaseVersion)' END);
 
 GO
 SET IMPLICIT_TRANSACTIONS, NUMERIC_ROUNDABORT OFF;
