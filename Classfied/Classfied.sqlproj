@@ -34,7 +34,8 @@
     <EvaluateExecutionOrderOnImport>True</EvaluateExecutionOrderOnImport>
     <Baselining>FolderBased</Baselining>
     <Provisioner>CustomScripts</Provisioner>
-    <IncludeObjectsInDataSync>Table=[dbo].[DM_CREDIT_CARD_TYPE]</IncludeObjectsInDataSync>
+    <IncludeObjectsInDataSync>Table=[dbo].[DM_CREDIT_CARD_TYPE];Table=[dbo].[RSSFeeds]</IncludeObjectsInDataSync>
+    <DeployChangesExecutionOrder>0f8695ea-5895-520c-9d2c-a7a44293fe3a|Programmable Objects\dbo\Functions\calculateEstimateOfReadingTime.sql;912c82cd-bd4b-519b-bb52-4faebd519829|Programmable Objects\dbo\Views\v_Articles.sql</DeployChangesExecutionOrder>
   </PropertyGroup>
   <!-- SQL CHANGE AUTOMATION OFFLINE SCHEMA MODEL OPTIONS -->
   <PropertyGroup>
@@ -190,6 +191,31 @@
     <None Include="Schema-Model\dbo\Tables\DM_SUPPLIERS.sql" />
     <None Include="Migrations\1.1.0-Changes\001_20200901-1034_Anderson.Rangel.sql" />
     <None Include="Migrations\1.1.0-Changes\002_20200901-1349_Anderson.Rangel.sql" />
+    <None Include="Migrations\1.1.0-Changes\003_20200901-1359_Anderson.Rangel.sql" />
+    <None Include="Programmable Objects\dbo\Functions\calculateEstimateOfReadingTime.sql" />
+    <None Include="Programmable Objects\dbo\Functions\ntsh.sql" />
+    <None Include="Programmable Objects\dbo\Functions\ufnGetBlogInformation.sql" />
+    <None Include="Programmable Objects\dbo\Stored Procedures\prcAddBlog.sql" />
+    <None Include="Programmable Objects\dbo\Stored Procedures\prcAddContact.sql" />
+    <None Include="Programmable Objects\dbo\Stored Procedures\prcGetContacts.sql" />
+    <None Include="Programmable Objects\dbo\Stored Procedures\prcGetRSSFeeds.sql" />
+    <None Include="Programmable Objects\dbo\Stored Procedures\prcProcedureWithDynamicSQL.sql" />
+    <None Include="Programmable Objects\dbo\Views\ArticlesPriceList.sql" />
+    <None Include="Programmable Objects\dbo\Views\newview.sql" />
+    <None Include="Programmable Objects\dbo\Views\v_Articles.sql" />
+    <None Include="Programmable Objects\dbo\Views\v_Blogs.sql" />
+    <None Include="Schema-Model\dbo\Tables\ArticleDescriptions.sql" />
+    <None Include="Schema-Model\dbo\Tables\ArticlePrices.sql" />
+    <None Include="Schema-Model\dbo\Tables\ArticlePurchases.sql" />
+    <None Include="Schema-Model\dbo\Tables\ArticleReferences.sql" />
+    <None Include="Schema-Model\dbo\Tables\Articles.sql" />
+    <None Include="Schema-Model\dbo\Tables\BlogComments.sql" />
+    <None Include="Schema-Model\dbo\Tables\Blogs.sql" />
+    <None Include="Schema-Model\dbo\Tables\Contacts.sql" />
+    <None Include="Schema-Model\dbo\Tables\CountryCodes.sql" />
+    <None Include="Schema-Model\dbo\Tables\PersonData.sql" />
+    <None Include="Schema-Model\dbo\Tables\RSSFeeds.sql" />
+    <None Include="Migrations\1.1.0-Changes\004_20200901-1400_Anderson.Rangel.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Pre-Deployment\01_Initialize_Deployment.sql" />

@@ -1,5 +1,5 @@
 ﻿/*
-    Generated date:     2020-09-01T10:37:15Z
+    Generated date:     2020-09-01T13:52:10Z
     Generated on:       SLS-LT-ANDERSON
     Package version:    
     Migration version:  (n/a)
@@ -808,13 +808,82 @@ IF DB_NAME() != '$(DatabaseName)'
   USE [$(DatabaseName)];
 
 GO
-IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('9170f158-c470-5b3f-8c5e-735a4c2f9ba4' AS UNIQUEIDENTIFIER) AND [script_checksum] = 'A0F9D402ADFF2DDEB0561D839E5CE34A1B620EC12348BA0FC277A78A429371D9')
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('69895b0b-3ac2-4be1-a916-d195969ca1a4' AS UNIQUEIDENTIFIER))
+  PRINT '
+
+***** EXECUTING MIGRATION "Migrations\1.1.0-Changes\002_20200901-1349_Anderson.Rangel.sql", ID: {69895b0b-3ac2-4be1-a916-d195969ca1a4} *****';
+
+GO
+IF EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('69895b0b-3ac2-4be1-a916-d195969ca1a4' AS UNIQUEIDENTIFIER))
+BEGIN
+  PRINT '----- Skipping "Migrations\1.1.0-Changes\002_20200901-1349_Anderson.Rangel.sql", ID: {69895b0b-3ac2-4be1-a916-d195969ca1a4} as it has already been run on this database';
+  SET NOEXEC ON;
+END
+
+GO
+EXECUTE ('
+
+SET IMPLICIT_TRANSACTIONS, NUMERIC_ROUNDABORT OFF;
+SET ANSI_NULLS, ANSI_PADDING, ANSI_WARNINGS, ARITHABORT, CONCAT_NULL_YIELDS_NULL, NOCOUNT, QUOTED_IDENTIFIER ON;
+
+SET DATEFORMAT YMD;
+
+
+');
+
+GO
+EXECUTE ('IF (SELECT COUNT(*)
+    FROM   [dbo].[DM_CREDIT_CARD_TYPE]) = 0
+    BEGIN
+        PRINT (N''Add 5 rows to [dbo].[DM_CREDIT_CARD_TYPE]'');
+        INSERT  INTO [dbo].[DM_CREDIT_CARD_TYPE] ([credit_card_type_id], [credit_card_type_name])
+        VALUES                                  (''1'', ''Discover'');
+        INSERT  INTO [dbo].[DM_CREDIT_CARD_TYPE] ([credit_card_type_id], [credit_card_type_name])
+        VALUES                                  (''2'', ''American Express'');
+        INSERT  INTO [dbo].[DM_CREDIT_CARD_TYPE] ([credit_card_type_id], [credit_card_type_name])
+        VALUES                                  (''3'', ''Diners Club'');
+        INSERT  INTO [dbo].[DM_CREDIT_CARD_TYPE] ([credit_card_type_id], [credit_card_type_name])
+        VALUES                                  (''4'', ''Master Card'');
+        INSERT  INTO [dbo].[DM_CREDIT_CARD_TYPE] ([credit_card_type_id], [credit_card_type_name])
+        VALUES                                  (''5'', ''VISA'');
+    END
+
+
+');
+
+GO
+SET NOEXEC OFF;
+
+GO
+IF N'$(IsSqlCmdEnabled)' <> N'True'
+  SET NOEXEC ON;
+
+GO
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('69895b0b-3ac2-4be1-a916-d195969ca1a4' AS UNIQUEIDENTIFIER))
+  PRINT '***** FINISHED EXECUTING MIGRATION "Migrations\1.1.0-Changes\002_20200901-1349_Anderson.Rangel.sql", ID: {69895b0b-3ac2-4be1-a916-d195969ca1a4} *****
+';
+
+GO
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('69895b0b-3ac2-4be1-a916-d195969ca1a4' AS UNIQUEIDENTIFIER))
+  INSERT [$(DatabaseName)].[dbo].[__MigrationLog] ([migration_id], [script_checksum], [script_filename], [complete_dt], [applied_by], [deployed], [version], [package_version], [release_version])
+  VALUES                                         (CAST ('69895b0b-3ac2-4be1-a916-d195969ca1a4' AS UNIQUEIDENTIFIER), '91A229A2EA7CDC9C8F3AB5BB6CBD9F22D918090A8D471CD08E9665B34E23E444', 'Migrations\1.1.0-Changes\002_20200901-1349_Anderson.Rangel.sql', SYSDATETIME(), SYSTEM_USER, 1, NULL, '$(PackageVersion)', CASE '$(ReleaseVersion)' WHEN '' THEN NULL ELSE '$(ReleaseVersion)' END);
+
+GO
+SET IMPLICIT_TRANSACTIONS, NUMERIC_ROUNDABORT OFF;
+SET ANSI_NULLS, ANSI_PADDING, ANSI_WARNINGS, ARITHABORT, CONCAT_NULL_YIELDS_NULL, NOCOUNT, QUOTED_IDENTIFIER ON;
+
+GO
+IF DB_NAME() != '$(DatabaseName)'
+  USE [$(DatabaseName)];
+
+GO
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('9170f158-c470-5b3f-8c5e-735a4c2f9ba4' AS UNIQUEIDENTIFIER) AND [script_checksum] = '764FB99F8A6B685E4A0ABDCFCDAE6D4F66FA2E8B5AF566D33FAF956E81AA1253')
   PRINT '
 
 ***** EXECUTING MIGRATION "Programmable Objects\dbo\Stored Procedures\GetContacts.sql", ID: {9170f158-c470-5b3f-8c5e-735a4c2f9ba4} *****';
 
 GO
-IF EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('9170f158-c470-5b3f-8c5e-735a4c2f9ba4' AS UNIQUEIDENTIFIER) AND [script_checksum] = 'A0F9D402ADFF2DDEB0561D839E5CE34A1B620EC12348BA0FC277A78A429371D9')
+IF EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('9170f158-c470-5b3f-8c5e-735a4c2f9ba4' AS UNIQUEIDENTIFIER) AND [script_checksum] = '764FB99F8A6B685E4A0ABDCFCDAE6D4F66FA2E8B5AF566D33FAF956E81AA1253')
 BEGIN
   PRINT '----- Skipping "Programmable Objects\dbo\Stored Procedures\GetContacts.sql", ID: {9170f158-c470-5b3f-8c5e-735a4c2f9ba4} as there are no changes to deploy';
   SET NOEXEC ON;
@@ -857,7 +926,7 @@ AS
             DC.customer_zipcode,
             DC.credit_card_type_id,
             DC.customer_credit_card_number FROM dbo.DM_CUSTOMER AS DC
-			--v2
+			--v3
 ');
 
 GO
@@ -868,14 +937,14 @@ IF N'$(IsSqlCmdEnabled)' <> N'True'
   SET NOEXEC ON;
 
 GO
-IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('9170f158-c470-5b3f-8c5e-735a4c2f9ba4' AS UNIQUEIDENTIFIER) AND [script_checksum] = 'A0F9D402ADFF2DDEB0561D839E5CE34A1B620EC12348BA0FC277A78A429371D9')
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('9170f158-c470-5b3f-8c5e-735a4c2f9ba4' AS UNIQUEIDENTIFIER) AND [script_checksum] = '764FB99F8A6B685E4A0ABDCFCDAE6D4F66FA2E8B5AF566D33FAF956E81AA1253')
   PRINT '***** FINISHED EXECUTING MIGRATION "Programmable Objects\dbo\Stored Procedures\GetContacts.sql", ID: {9170f158-c470-5b3f-8c5e-735a4c2f9ba4} *****
 ';
 
 GO
-IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('9170f158-c470-5b3f-8c5e-735a4c2f9ba4' AS UNIQUEIDENTIFIER) AND [script_checksum] = 'A0F9D402ADFF2DDEB0561D839E5CE34A1B620EC12348BA0FC277A78A429371D9')
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('9170f158-c470-5b3f-8c5e-735a4c2f9ba4' AS UNIQUEIDENTIFIER) AND [script_checksum] = '764FB99F8A6B685E4A0ABDCFCDAE6D4F66FA2E8B5AF566D33FAF956E81AA1253')
   INSERT [$(DatabaseName)].[dbo].[__MigrationLog] ([migration_id], [script_checksum], [script_filename], [complete_dt], [applied_by], [deployed], [version], [package_version], [release_version])
-  VALUES                                         (CAST ('9170f158-c470-5b3f-8c5e-735a4c2f9ba4' AS UNIQUEIDENTIFIER), 'A0F9D402ADFF2DDEB0561D839E5CE34A1B620EC12348BA0FC277A78A429371D9', 'Programmable Objects\dbo\Stored Procedures\GetContacts.sql', SYSDATETIME(), SYSTEM_USER, 1, NULL, '$(PackageVersion)', CASE '$(ReleaseVersion)' WHEN '' THEN NULL ELSE '$(ReleaseVersion)' END);
+  VALUES                                         (CAST ('9170f158-c470-5b3f-8c5e-735a4c2f9ba4' AS UNIQUEIDENTIFIER), '764FB99F8A6B685E4A0ABDCFCDAE6D4F66FA2E8B5AF566D33FAF956E81AA1253', 'Programmable Objects\dbo\Stored Procedures\GetContacts.sql', SYSDATETIME(), SYSTEM_USER, 1, NULL, '$(PackageVersion)', CASE '$(ReleaseVersion)' WHEN '' THEN NULL ELSE '$(ReleaseVersion)' END);
 
 GO
 PRINT '# Committing transaction';
