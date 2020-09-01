@@ -34,6 +34,7 @@
     <EvaluateExecutionOrderOnImport>True</EvaluateExecutionOrderOnImport>
     <Baselining>FolderBased</Baselining>
     <Provisioner>CustomScripts</Provisioner>
+    <IncludeObjectsInDataSync>Table=[dbo].[DM_CREDIT_CARD_TYPE]</IncludeObjectsInDataSync>
   </PropertyGroup>
   <!-- SQL CHANGE AUTOMATION OFFLINE SCHEMA MODEL OPTIONS -->
   <PropertyGroup>
@@ -188,6 +189,7 @@
     <None Include="Schema-Model\dbo\Tables\DM_INVOICE_LINE_HISTORY.sql" />
     <None Include="Schema-Model\dbo\Tables\DM_SUPPLIERS.sql" />
     <None Include="Migrations\1.1.0-Changes\001_20200901-1034_Anderson.Rangel.sql" />
+    <None Include="Migrations\1.1.0-Changes\002_20200901-1349_Anderson.Rangel.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Pre-Deployment\01_Initialize_Deployment.sql" />
