@@ -187,6 +187,7 @@
     <None Include="Schema-Model\dbo\Tables\DM_INVOICE_LINE.sql" />
     <None Include="Schema-Model\dbo\Tables\DM_INVOICE_LINE_HISTORY.sql" />
     <None Include="Schema-Model\dbo\Tables\DM_SUPPLIERS.sql" />
+    <None Include="Programmable Objects\dbo\Stored Procedures\newproc.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Pre-Deployment\01_Initialize_Deployment.sql" />

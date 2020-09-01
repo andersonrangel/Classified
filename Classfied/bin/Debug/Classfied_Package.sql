@@ -1,5 +1,5 @@
 ﻿/*
-    Generated date:     2020-09-01T09:56:29Z
+    Generated date:     2020-09-01T10:04:31Z
     Generated on:       SLS-LT-ANDERSON
     Package version:    
     Migration version:  (n/a)
@@ -760,13 +760,13 @@ IF DB_NAME() != '$(DatabaseName)'
   USE [$(DatabaseName)];
 
 GO
-IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('9170f158-c470-5b3f-8c5e-735a4c2f9ba4' AS UNIQUEIDENTIFIER) AND [script_checksum] = 'B189C958D7D65CE2EB40E5BFC8BD12E5BC93C932A0363839934A75D4C98943A2')
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('9170f158-c470-5b3f-8c5e-735a4c2f9ba4' AS UNIQUEIDENTIFIER) AND [script_checksum] = 'A0F9D402ADFF2DDEB0561D839E5CE34A1B620EC12348BA0FC277A78A429371D9')
   PRINT '
 
 ***** EXECUTING MIGRATION "Programmable Objects\dbo\Stored Procedures\GetContacts.sql", ID: {9170f158-c470-5b3f-8c5e-735a4c2f9ba4} *****';
 
 GO
-IF EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('9170f158-c470-5b3f-8c5e-735a4c2f9ba4' AS UNIQUEIDENTIFIER) AND [script_checksum] = 'B189C958D7D65CE2EB40E5BFC8BD12E5BC93C932A0363839934A75D4C98943A2')
+IF EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('9170f158-c470-5b3f-8c5e-735a4c2f9ba4' AS UNIQUEIDENTIFIER) AND [script_checksum] = 'A0F9D402ADFF2DDEB0561D839E5CE34A1B620EC12348BA0FC277A78A429371D9')
 BEGIN
   PRINT '----- Skipping "Programmable Objects\dbo\Stored Procedures\GetContacts.sql", ID: {9170f158-c470-5b3f-8c5e-735a4c2f9ba4} as there are no changes to deploy';
   SET NOEXEC ON;
@@ -809,6 +809,7 @@ AS
             DC.customer_zipcode,
             DC.credit_card_type_id,
             DC.customer_credit_card_number FROM dbo.DM_CUSTOMER AS DC
+			--v2
 ');
 
 GO
@@ -819,14 +820,14 @@ IF N'$(IsSqlCmdEnabled)' <> N'True'
   SET NOEXEC ON;
 
 GO
-IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('9170f158-c470-5b3f-8c5e-735a4c2f9ba4' AS UNIQUEIDENTIFIER) AND [script_checksum] = 'B189C958D7D65CE2EB40E5BFC8BD12E5BC93C932A0363839934A75D4C98943A2')
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('9170f158-c470-5b3f-8c5e-735a4c2f9ba4' AS UNIQUEIDENTIFIER) AND [script_checksum] = 'A0F9D402ADFF2DDEB0561D839E5CE34A1B620EC12348BA0FC277A78A429371D9')
   PRINT '***** FINISHED EXECUTING MIGRATION "Programmable Objects\dbo\Stored Procedures\GetContacts.sql", ID: {9170f158-c470-5b3f-8c5e-735a4c2f9ba4} *****
 ';
 
 GO
-IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('9170f158-c470-5b3f-8c5e-735a4c2f9ba4' AS UNIQUEIDENTIFIER) AND [script_checksum] = 'B189C958D7D65CE2EB40E5BFC8BD12E5BC93C932A0363839934A75D4C98943A2')
+IF NOT EXISTS (SELECT 1 FROM [$(DatabaseName)].[dbo].[__MigrationLogCurrent] WHERE [migration_id] = CAST ('9170f158-c470-5b3f-8c5e-735a4c2f9ba4' AS UNIQUEIDENTIFIER) AND [script_checksum] = 'A0F9D402ADFF2DDEB0561D839E5CE34A1B620EC12348BA0FC277A78A429371D9')
   INSERT [$(DatabaseName)].[dbo].[__MigrationLog] ([migration_id], [script_checksum], [script_filename], [complete_dt], [applied_by], [deployed], [version], [package_version], [release_version])
-  VALUES                                         (CAST ('9170f158-c470-5b3f-8c5e-735a4c2f9ba4' AS UNIQUEIDENTIFIER), 'B189C958D7D65CE2EB40E5BFC8BD12E5BC93C932A0363839934A75D4C98943A2', 'Programmable Objects\dbo\Stored Procedures\GetContacts.sql', SYSDATETIME(), SYSTEM_USER, 1, NULL, '$(PackageVersion)', CASE '$(ReleaseVersion)' WHEN '' THEN NULL ELSE '$(ReleaseVersion)' END);
+  VALUES                                         (CAST ('9170f158-c470-5b3f-8c5e-735a4c2f9ba4' AS UNIQUEIDENTIFIER), 'A0F9D402ADFF2DDEB0561D839E5CE34A1B620EC12348BA0FC277A78A429371D9', 'Programmable Objects\dbo\Stored Procedures\GetContacts.sql', SYSDATETIME(), SYSTEM_USER, 1, NULL, '$(PackageVersion)', CASE '$(ReleaseVersion)' WHEN '' THEN NULL ELSE '$(ReleaseVersion)' END);
 
 GO
 PRINT '# Committing transaction';
