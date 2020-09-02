@@ -12,7 +12,8 @@ CREATE TABLE [dbo].[DM_CUSTOMER]
 [customer_telephone] [varchar] (60) NULL,
 [customer_zipcode] [varchar] (60) NULL,
 [credit_card_type_id] [varchar] (2) NULL,
-[customer_credit_card_number] [varchar] (60) NULL
+[customer_credit_card_number] [varchar] (60) NULL,
+[status] [int] NULL
 )
 GO
 ALTER TABLE [dbo].[DM_CUSTOMER] ADD CONSTRAINT [PK__DM_CUSTO__CD65CB85EBAB0573] PRIMARY KEY CLUSTERED  ([customer_id])
